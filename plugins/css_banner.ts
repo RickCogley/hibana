@@ -7,7 +7,7 @@ interface Options {
 export default function (options: Options) {
   function addBanner(content: string): string {
     const banner = `/* ${options.message} */`;
-    return $banner + "\n" + content;
+    return banner + "\n" + content;
   }
 
   return (site: Site) => {
