@@ -16,7 +16,7 @@ export default function externalLinksIcon(siteUrl: URL) {
 
         try {
           //const linkUrl = new URL(href, page.data.url || siteUrlStr);
-          const linkUrl = new URL(href, siteUrlStr);
+          const linkUrl = new URL(href, siteUrl);
 
           const isExternal =
             (linkUrl.protocol === "http:" || linkUrl.protocol === "https:") &&
