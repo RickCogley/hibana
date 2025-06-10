@@ -1,10 +1,14 @@
-// Example my-plugins/css_banner.ts from Lume Docs
+// import type { Site } from "lume/core.ts";
+import type { Site } from "../types/lume.ts";
 
-interface Options {
+export interface CssBannerOptions {
   message: string;
 }
 
-export default function (options: Options) {
+/**
+ * A Lume plugin that prepends a CSS comment banner to all .css files.
+ */
+export default function cssBanner(options: CssBannerOptions) {
   function addBanner(content: string): string {
     const banner = `/* ${options.message} */`;
     return banner + "\n" + content;
@@ -13,7 +17,9 @@ export default function (options: Options) {
   return (site: Site) => {
     site.process([".css"], (pages) => {
       for (const page of pages) {
-        page.content = addBanner(page.content as string);
+        if (typeof page.content === "string") {
+          page.content = addBanner(page.content);
+        }
       }
     });
   };

@@ -9,8 +9,8 @@
 //   return array;
 // });
 
-import { merge } from "lume/core/utils/object.ts";
-import type Site from "lume/core/site.ts";
+import type { Site } from "../types/lume.ts";
+import type { merge } from "../types/lume.ts";
 
 export interface Options {
   /** The shuffle helper name */
