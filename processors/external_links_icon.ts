@@ -1,6 +1,9 @@
-// external_links_icon.ts adds an icon to external links in HTML pages
 import type { Page } from "../types/lume.ts";
-export default function externalLinksIcon(siteUrl: URL) {
+
+export default function externalLinksIcon(siteUrl?: URL) {
+  const fallbackUrl = new URL("https://blog.esolia.pro");
+  const baseUrl = siteUrl instanceof URL ? siteUrl : fallbackUrl;
+
   return (pages: Page[]) => {
     for (const page of pages) {
       const document = page.document;
@@ -15,14 +18,13 @@ export default function externalLinksIcon(siteUrl: URL) {
         if (!href || href.startsWith("#")) continue;
 
         try {
-          //const linkUrl = new URL(href, page.data.url || siteUrlStr);
-          const linkUrl = new URL(href, siteUrl);
+          const linkUrl = new URL(href, baseUrl);
 
           const isExternal =
             (linkUrl.protocol === "http:" || linkUrl.protocol === "https:") &&
-            (linkUrl.protocol !== siteUrl.protocol ||
-              linkUrl.hostname !== siteUrl.hostname ||
-              linkUrl.port !== siteUrl.port);
+            (linkUrl.protocol !== baseUrl.protocol ||
+              linkUrl.hostname !== baseUrl.hostname ||
+              linkUrl.port !== baseUrl.port);
 
           if (isExternal) {
             link.classList.add("after:content-['_↗']");
