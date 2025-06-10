@@ -1,9 +1,6 @@
 // external_links_icon.ts adds an icon to external links in HTML pages
 import type { Page } from "../types/lume.ts";
-
-export default function externalLinksIcon(siteUrlStr = "https://blog.esolia.pro") {
-  const siteUrl = new URL(siteUrlStr);
-
+export default function externalLinksIcon(siteUrl: URL) {
   return (pages: Page[]) => {
     for (const page of pages) {
       const document = page.document;
