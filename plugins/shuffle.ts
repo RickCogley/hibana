@@ -10,7 +10,7 @@
 // });
 
 import type { Site } from "../types/lume.ts";
-import type { merge } from "../types/lume.ts";
+import { merge } from "../types/lume.ts";
 
 export interface Options {
   /** The shuffle helper name */
