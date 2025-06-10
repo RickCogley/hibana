@@ -18,7 +18,8 @@ export default function externalLinksIcon(siteUrlStr = "https://blog.esolia.pro"
         if (!href || href.startsWith("#")) continue;
 
         try {
-          const linkUrl = new URL(href, page.data.url || siteUrlStr);
+          //const linkUrl = new URL(href, page.data.url || siteUrlStr);
+          const linkUrl = new URL(href, siteUrlStr);
 
           const isExternal =
             (linkUrl.protocol === "http:" || linkUrl.protocol === "https:") &&
