@@ -1,58 +1,54 @@
-// defer_pagefind.ts searches html pages for Pagefind CSS and JS links,
-// and modifies them to load with `defer` and `media="print"` attributes, so they don't block rendering.
+// processors/defer_pagefind.ts
 
 import type { Page } from "../types/lume.ts";
 
-export default function deferPagefind() {
-  return (pages: Page[]) => {
-    console.log("Starting deferPagefind script...");
-    for (const page of pages) {
-      const content = page.content;
-      if (typeof content !== "string") {
-        console.log(`Skipping non-string content for: ${page.src?.path || "unknown page"}`);
-        continue;
-      }
+/**
+ * Modifies the content of a single Lume Page to defer Pagefind CSS and JS loading.
+ * Intended to be used with site.afterRender().
+ */
+export function deferPagefindForPage(page: Page) {
+  const content = page.content;
 
-      console.log(`Processing page: ${page.src?.path || "unknown page"}`);
-      console.log(`Original content snippet (first 200 chars): ${content.substring(0, 200)}`);
+  // Crucially, this check should now usually pass for HTML pages in afterRender
+  if (typeof content !== "string") {
+    // This console.log should ideally be seen less or not at all for .html pages
+    console.log(`Skipping non-string content for: ${page.src?.path || "unknown page"} (at afterRender stage)`);
+    return; // Don't proceed if content isn't a string
+  }
 
-      let updated = content;
-      let modified = false;
+  let updated = content;
+  let modified = false; // Flag to track if any changes were made
 
-      // Check for Pagefind CSS link BEFORE replacement
-      const cssMatch = content.match(/<link\s+[^>]*href=["']\/pagefind\/pagefind-ui\.css["'][^>]*>/gi);
-      if (cssMatch) {
-        console.log(`Found Pagefind CSS link on ${page.src?.path}: ${cssMatch[0]}`);
-      } else {
-        console.log(`❌ Pagefind CSS link NOT found on ${page.src?.path}`);
-      }
-
+  // Regex to ensure we capture the attributes correctly for replacement
+  const cssRegex = /(<link\s+[^>]*href=["']\/pagefind\/pagefind-ui\.css["'])(\s*[^>]*>)/gi;
+  if (cssRegex.test(updated)) {
+      // Replaces the existing tag by inserting the new attributes before the closing bracket
       updated = updated.replace(
-        /<link\s+[^>]*href=["']\/pagefind\/pagefind-ui\.css["'][^>]*>/gi,
-        `<link rel="stylesheet" href="/pagefind/pagefind-ui.css" media="print" onload="this.media='all'">`
+          cssRegex,
+          `$1 media="print" onload="this.media='all'"$2`
       );
+      modified = true;
+  }
 
-      // Check for Pagefind JS script BEFORE replacement
-      const jsMatch = content.match(/<script\s+[^>]*src=["']\/pagefind\/pagefind-ui\.js["'][^>]*><\/script>/gi);
-      if (jsMatch) {
-        console.log(`Found Pagefind JS script on ${page.src?.path}: ${jsMatch[0]}`);
-      } else {
-        console.log(`❌ Pagefind JS script NOT found on ${page.src?.path}`);
-      }
 
+  const jsRegex = /(<script\s+[^>]*src=["']\/pagefind\/pagefind-ui\.js["'])(\s*[^>]*><\/script>)/gi;
+  if (jsRegex.test(updated)) {
+      // Replaces the existing tag by inserting the 'defer' attribute
       updated = updated.replace(
-        /<script\s+[^>]*src=["']\/pagefind\/pagefind-ui\.js["'][^>]*><\/script>/gi,
-        `<script type="text/javascript" src="/pagefind/pagefind-ui.js" defer></script>`
+          jsRegex,
+          `$1 defer$2`
       );
+      modified = true;
+  }
 
-      if (updated !== content) {
-        page.content = updated;
-        console.log(`✅ Modified: ${page.src?.path || "unknown page"}`);
-        console.log(`Updated content snippet (first 200 chars): ${page.content.substring(0, 200)}`);
-      } else {
-        console.log(`No changes made to: ${page.src?.path || "unknown page"}`);
-      }
-    }
-    console.log("Finished deferPagefind script.");
-  };
+  // Only update page.content and log if actual modifications occurred
+  if (modified) {
+    page.content = updated;
+    console.log(`✅ Modified Pagefind attributes for: ${page.src?.path || "unknown page"}`);
+    // You can uncomment this for very detailed debugging, but it can be noisy
+    // console.log(`Updated content snippet (first 500 chars): ${page.content.substring(0, 500)}`);
+  } else {
+    // This log can be useful if you expect modifications but don't see them
+    // console.log(`No Pagefind modifications needed for: ${page.src?.path || "unknown page"}`);
+  }
 }
