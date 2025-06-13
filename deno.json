@@ -1,0 +1,8 @@
+{
+  "imports": {
+    "lume/": "https://deno.land/x/lume@v3.0.4/"
+  },
+  "tasks": {
+    "update-lume": "deno run --allow-read --allow-write --allow-net update_lume_version.ts"
+  }
+}
