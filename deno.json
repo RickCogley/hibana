@@ -1,4 +1,5 @@
 {
+  "name": "@rick/hibana",
   "imports": {
     "lume/": "https://deno.land/x/lume@v3.0.4/"
   },
