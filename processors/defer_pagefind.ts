@@ -4,7 +4,7 @@
  */
 
 
-import { DOMParser } from "deno_dom";
+import { DOMParser } from "../deps.ts";
 import type { Page } from "../types/lume.ts";
 
 /**
