@@ -22,10 +22,11 @@
  *   "lume/": "https://deno.land/x/lume@v3.0.3/",
  *   "lume/cms/": "https://cdn.jsdelivr.net/gh/lumeland/cms@0.12.0/",
  *   "lume/jsx-runtime": "https://deno.land/x/ssx@v0.1.10/jsx-runtime.ts",
- *   "hibana/": "https://raw.githubusercontent.com/RickCogley/hibana/v1.0.10/"
+ *   "hibana/": "https://deno.land/x/hibana/v1.0.14/"
  * },...
  * 
- * // jsr:@rick/hibana@1.0.10
+ * // Github Direct: 
+ * "hibana/": "https://raw.githubusercontent.com/RickCogley/hibana/v1.0.14/"
  */
 
 // Plugins
