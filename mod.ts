@@ -22,11 +22,11 @@
  *   "lume/": "https://deno.land/x/lume@v3.0.3/",
  *   "lume/cms/": "https://cdn.jsdelivr.net/gh/lumeland/cms@0.12.0/",
  *   "lume/jsx-runtime": "https://deno.land/x/ssx@v0.1.10/jsx-runtime.ts",
- *   "hibana/": "https://deno.land/x/hibana/v1.0.17/"
+ *   "hibana/": "https://deno.land/x/hibana/v1.0.18/"
  * },...
  * 
  * // Github Direct: 
- * "hibana/": "https://raw.githubusercontent.com/RickCogley/hibana/v1.0.17/"
+ * "hibana/": "https://raw.githubusercontent.com/RickCogley/hibana/v1.0.18/"
  * 
  * // Then import it in your Lume config:
  * import { cssBanner, shuffle, deferPagefind, externalLinksIcon } from "hibana/mod.ts";
