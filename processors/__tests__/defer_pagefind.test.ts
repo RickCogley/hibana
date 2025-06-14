@@ -1,5 +1,5 @@
 // src/_processors/defer_pagefind.test.ts
-import { assertEquals } from "https://deno.land/std@0.203.0/assert/mod.ts";
+import { assertEquals } from "@std/assert";
 import deferPagefind from "../defer_pagefind.ts";
 
 Deno.test("deferPagefind modifies Pagefind CSS and JS", () => {

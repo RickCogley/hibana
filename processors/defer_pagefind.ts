@@ -3,7 +3,7 @@
  * @author Rick Cogley
  */
 
-import { DOMParser } from "https://deno.land/x/deno_dom/deno-dom-wasm.ts";
+import { DOMParser } from "jsr:@b-fuze/deno-dom";
 import type { Page } from "../types/lume.ts";
 
 /**

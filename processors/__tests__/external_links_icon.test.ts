@@ -1,5 +1,5 @@
 // src/_processors/external_links_icon.test.ts
-import { assertEquals } from "https://deno.land/std@0.203.0/assert/mod.ts";
+import { assertEquals } from "@std/assert";
 import externalLinksIcon from "../external_links_icon.ts";
 
 Deno.test("adds external icon class to external links", () => {
