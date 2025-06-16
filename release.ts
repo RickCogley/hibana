@@ -94,7 +94,7 @@ const main = async () => {
   if (!dryRun) await exec(["deno", "doc", "--html", "--name=\"Hibana Lume Helpers\"", "mod.ts"]);
 
   console.log("Running generate_readme.ts...");
-  if (!dryRun) await exec(["deno", "run", "--allow-read", "--allow-run", "generate_readme.ts"]);
+  if (!dryRun) await exec(["deno", "run", "--allow-read", "--allow-run", "--allow-write", "generate_readme.ts"]);
 
   console.log("Generating changelog...");
   const changelogEntry = await getChangelog(prevVersion, version);
