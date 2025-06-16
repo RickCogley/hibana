@@ -60,7 +60,7 @@ const getChangelog = async (prev: string, curr: string): Promise<string> => {
   );
   const date = new Date().toISOString().split("T")[0];
   const compareLink = prev
-    ? `https://github.com/youruser/yourrepo/compare/${prev}...${curr}`
+    ? `https://github.com/rickcogley/hibana/compare/${prev}...${curr}`
     : "";
   return `\n## ${curr} - ${date}\n\n### Added\n\n${log}\n\n${
     compareLink ? `[Compare changes](${compareLink})\n` : ""
@@ -74,7 +74,7 @@ const zipDocs = async () => {
 };
 
 const openReleasePage = async (version: string) => {
-  const url = `https://github.com/youruser/yourrepo/releases/tag/${version}`;
+  const url = `https://github.com/rickcogley/hibana/releases/tag/${version}`;
   await exec(["xdg-open", url]).catch(() =>
     exec(["open", url]).catch(() => console.log("Open URL:", url))
   );
