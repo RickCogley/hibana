@@ -91,7 +91,7 @@ const main = async () => {
   await updateVersionInFile("README.md", version);
 
   console.log("Generating docs...");
-  if (!dryRun) await exec(["deno", "doc", "--html", "--name=\"Hibana Lume Helpers\"", "--output", "docs", "mod.ts"]);
+  if (!dryRun) await exec(["deno", "doc", "--html", "--name=\"Hibana Lume Helpers\"", "mod.ts"]);
 
   console.log("Running generate_readme.ts...");
   if (!dryRun) await exec(["deno", "run", "--allow-read", "--allow-run", "generate_readme.ts"]);
