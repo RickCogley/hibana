@@ -1,49 +1,154 @@
-# hibana
+# Hibana Lume Helpers
 
-Hibana 火花 (lit "fire flowers") are little sparks, shareable Helpers and Filters for «[Lume ルメ](https://lume.land/)», the fast Deno typescript SSG by [Óscar Otero](https://oscarotero.com/). 🙏🏻
+The `hibana` library re-exports various Lume helper plugins and utility functions designed to enhance Lume static site generation projects.
 
-With this repo I hope to learn more about Lume, Deno and typescript coding. 
+| Hibana | Specifications |
+| ------- | ------- |
+| **Version** | 1.0.18 |
+| **Repository** | [https://github.com/RickCogley/hibana](https://github.com/RickCogley/hibana) |
+| **License** | MIT |
+| **Author** | Rick Cogley |
 
-## Usage
+It provides:
+- [cssBanner](https://github.com/RickCogley/hibana/blob/main/./plugins/css_banner.ts#cssBanner) - A plugin to add a comment banner to CSS files.
+- [shuffle](https://github.com/RickCogley/hibana/blob/main/./plugins/shuffle.ts#shuffle) - A plugin to add a shuffle filter for arrays.
+- [deferPagefind](https://github.com/RickCogley/hibana/blob/main/./processors/defer_pagefind.ts#deferPagefind) - A processor to defer Pagefind CSS and JS loading.
+- [externalLinksIcon](https://github.com/RickCogley/hibana/blob/main/./processors/external_links_icon.ts#externalLinksIcon) - A processor to add external link icons to `target="_blank"` links.
+- [loadVendorScript](https://github.com/RickCogley/hibana/blob/main/./utils/dom_utils.ts#loadVendorScript), [trapFocus](https://github.com/RickCogley/hibana/blob/main/./utils/dom_utils.ts#trapFocus) - General DOM utility functions.
 
-This library is published to https://deno.land/x/hibana, so you can import it from there, or directly from github. 
 
-N.b. Github caches raw files for 10 min, so if you ever need the latest and don't want to wait, just "cache bust" it by appending `?1`, `?2` etc.
 
-Import the hibana version in your import map in `deno.json`:
+## API
 
-```json
-"imports": {
-  "lume/": "https://deno.land/x/lume@v3.0.3/",
-  "lume/cms/": "https://cdn.jsdelivr.net/gh/lumeland/cms@0.12.0/",
-  "lume/jsx-runtime": "https://deno.land/x/ssx@v0.1.10/jsx-runtime.ts",
-  "hibana/": "https://deno.land/x/hibana/v1.0.18/"
- },...
-```
+### `cssBanner`
 
-Then in `_config.ts`, import the needed modules from `hibana`, no version needed. 
+A Lume plugin that prepends a CSS comment banner to all .css files.
 
+This is useful for adding copyright information, build details, or
+other metadata to the top of your generated CSS files.
+
+
+**Parameters:**
+
+- `options` : `CssBannerOptions` - 
+
+**Example:**
 ```ts
+// In your Lume _config.ts:
+import lume from "lume/mod.ts";
 import { cssBanner, shuffle } from "hibana/mod.ts";
-import { cssBanner } from "https://raw.githubusercontent.com/RickCogley/hibana/v1.0.18/plugins/css_banner.ts?1";
-import { cssBanner, shuffle, deferPagefind, externalLinksIcon } from "hibana/mod.ts";
-etc
-```
 
-### css_banner.ts
-
-```
-import cssBanner from "https://raw.githubusercontent.com/RickCogley/hibana/refs/heads/main/plugins/css_banner.ts";
+const site = lume();
 
 site.use(cssBanner({
-  message: "© This code belongs to ACME Inc.",
+message: "===css jokes are always in style===",
 }));
+
+export default site;
 ```
 
-### shuffle.ts
+### `shuffle`
 
-```
-import shuffle from "https://raw.githubusercontent.com/RickCogley/hibana/refs/heads/main/plugins/shuffle.ts";
+A Lume plugin to register the filter "shuffle" that shuffles an array.
+
+This plugin adds a new filter named "shuffle" (by default) that can be used
+in your Lume templates to randomly reorder elements in an array.
+
+
+**Parameters:**
+
+- `userOptions` : `Options` - 
+
+**Example:**
+```ts
+// In your Lume _config.ts:
+import lume from "lume/mod.ts";
+import { shuffle, cssBanner } from "hibana/mod.ts";
 
 site.use(shuffle());
+
+export default site;
+
+// In your Vento templates:
+{{ [1, 2, 3, 4, 5] | shuffle }}
+// This will output a randomly shuffled array, e.g., [3, 1, 5, 2, 4].
+
+{{ for testimonial of testimonials.list |> shuffle }}
+// Use when building a list of testimonials in a for loop, shuffling their order.
 ```
+
+### `deferPagefind`
+
+Lume plugin to defer the loading of Pagefind CSS and JS.
+
+This plugin modifies the Pagefind CSS link and JS script tags
+to ensure they are loaded asynchronously, improving page load performance.
+
+It sets `media="print"` and `onload="this.media='all'"` on the CSS link
+and adds the `defer` attribute to the JS script.
+
+
+**Parameters:**
+
+
+**Example:**
+```ts
+// In your Lume _config.ts:
+import lume from "lume/mod.ts";
+import { deferPagefind, externalLinksIcon } from "hibana/mod.ts";
+
+const site = lume();
+
+// == NEAR BOTTOM of your _config.ts, after other plugins:
+// Specify the base URL
+site.process([".html"], externalLinksIcon("https://esolia.co.jp"));
+site.process([".html"], deferPagefind());
+
+export default site;
+```
+
+### `externalLinksIcon`
+
+Adds an external link icon to `<a>` anchor elements that point to external sites.
+Skips links inside elements with the class `.no-external-icon`.
+
+
+**Parameters:**
+
+- `siteUrlInput` : `` - 
+
+**Example:**
+```ts
+// In your Lume _config.ts:
+import lume from "lume/mod.ts";
+import { deferPagefind, externalLinksIcon } from "hibana/mod.ts";
+
+const site = lume();
+
+// == NEAR BOTTOM of your _config.ts, after other plugins:
+// Specify the base URL
+site.process([".html"], externalLinksIcon("https://esolia.co.jp"));
+site.process([".html"], deferPagefind());
+
+export default site;
+```
+
+### `loadVendorScript`
+
+Utility function to load an external vendor script.
+
+**Parameters:**
+
+- `src` : `string` - 
+- `undefined`  - 
+- `callback` : `` - 
+
+### `trapFocus`
+
+Traps focus within a given container element.
+Useful for modal dialogs to prevent users from tabbing outside the modal.
+
+**Parameters:**
+
+- `container` : `HTMLElement` - 
+
