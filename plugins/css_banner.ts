@@ -4,7 +4,7 @@
  * @see Original implementation from https://github.com/oscarotero in https://lume.land/docs/advanced/plugins/#simple-plugin-example.
  */
 
-import type { Site } from "../types/lume.ts";
+import type { Page, Site } from "../types/lume.ts";
 
 /**
  * Options interface for the CSS Banner plugin.
@@ -52,7 +52,7 @@ export default function cssBanner(options: CssBannerOptions) {
    * @param site - The Lume site instance.
    */
   return (site: Site) => {
-    site.process([".css"], (pages) => {
+    site.process([".css"], function cssBannerProcessor(pages: Page[]) {
       for (const page of pages) {
         if (typeof page.content === "string") {
           page.content = addBanner(page.content);

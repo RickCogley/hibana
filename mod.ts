@@ -1,6 +1,6 @@
 /**
  * The `hibana` library re-exports various Lume helper plugins and utility functions designed to enhance Lume static site generation projects.
- * 
+ *
  * | Hibana | Specifications |
  * | ------- | ------- |
  * | **Version** | 1.0.18 |
@@ -14,8 +14,7 @@
  * - {@link deferPagefind} - A processor to defer Pagefind CSS and JS loading.
  * - {@link externalLinksIcon} - A processor to add external link icons to `target="_blank"` links.
  * - {@link loadVendorScript}, {@link trapFocus} - General DOM utility functions.
- * 
- * 
+ *
  * @see {@link http://github.com|GitHub}
  * @see {@link https://github.com/RickCogley/hibana} official Git repository for this project.
  * @tags lume, plugin, processor, utility, static-site-generator
@@ -24,7 +23,6 @@
  * @author Rick Cogley
  * @license MIT
  *
- * 
  * @example Add `hibana` to your Lume project's `deno.json` import map:
  * ```ts
  * ...
@@ -36,24 +34,23 @@
  * },...
  * ```
  * @example Or you can import `hibana` directly from GitHub:
- * ```ts 
+ * ```ts
  * "hibana/": "https://raw.githubusercontent.com/RickCogley/hibana/v1.0.18/"
  * ```
- * 
+ *
  * @example Then import `hibana` into your Lume `_config.ts`:
  * ```ts
  * import { cssBanner, shuffle, deferPagefind, externalLinksIcon } from "hibana/mod.ts";
  * ```
  */
-
+1;
 // Plugins
 export { default as cssBanner } from "./plugins/css_banner.ts";
-export { default as shuffle } from "./plugins/shuffle.ts"; 
+export { default as shuffle } from "./plugins/shuffle.ts";
 
 // Processors
-export { default as deferPagefind } from "./processors/defer_pagefind.ts"; 
+export { default as deferPagefind } from "./processors/defer_pagefind.ts";
 export { default as externalLinksIcon } from "./processors/external_links_icon.ts";
 
-// General DOM Utilities 
-export { loadVendorScript, trapFocus } from "./utils/dom_utils.ts"; 
-
+// General DOM Utilities
+export { loadVendorScript, trapFocus } from "./utils/dom_utils.ts";

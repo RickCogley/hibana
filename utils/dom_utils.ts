@@ -4,7 +4,11 @@
  * @param attributes Optional attributes to set on the script tag.
  * @param callback Optional callback function to execute once the script is loaded.
  */
-export function loadVendorScript(src: string, attributes: { [key: string]: string } = {}, callback?: () => void): void {
+export function loadVendorScript(
+  src: string,
+  attributes: { [key: string]: string } = {},
+  callback?: () => void,
+): void {
   const script = document.createElement("script");
   script.src = src;
   Object.entries(attributes).forEach(([key, value]) => {
@@ -21,8 +25,11 @@ export function loadVendorScript(src: string, attributes: { [key: string]: strin
  */
 export function trapFocus(container: HTMLElement): void {
   // Select all focusable elements within the container
-  const focusableSelectors = 'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
-  const focusables: NodeListOf<HTMLElement> = container.querySelectorAll(focusableSelectors);
+  const focusableSelectors =
+    'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
+  const focusables: NodeListOf<HTMLElement> = container.querySelectorAll(
+    focusableSelectors,
+  );
 
   if (focusables.length === 0) {
     // console.warn("No focusable elements found in container:", container);

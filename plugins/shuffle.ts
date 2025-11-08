@@ -37,42 +37,38 @@ export const defaults: Options = {
  *
  * @param userOptions - Optional user-defined options to override the defaults.
  * @returns A Lume plugin function that registers the shuffle filter.
- * 
+ *
  * @example
  * // In your Lume _config.ts:
  * import lume from "lume/mod.ts";
  * import { shuffle, cssBanner } from "hibana/mod.ts";
- * 
+ *
  * site.use(shuffle());
- * 
+ *
  * export default site;
  *
  * // In your Vento templates:
  * {{ [1, 2, 3, 4, 5] | shuffle }}
  * // This will output a randomly shuffled array, e.g., [3, 1, 5, 2, 4].
- * 
+ *
  * {{ for testimonial of testimonials.list |> shuffle }}
  * // Use when building a list of testimonials in a for loop, shuffling their order.
- * 
  */
 export function shuffle(userOptions?: Options) {
   const options = merge(defaults, userOptions);
   return (site: Site) => {
     site.filter(options.names.shuffle!, <T>(array: T[] = []) => {
-        // Fisher-Yates (Knuth) shuffle algorithm
-        for (let i = array.length - 1; i >= 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [array[i], array[j]] = [array[j], array[i]]; // Swap elements
-        }
-        return array;
+      // Fisher-Yates (Knuth) shuffle algorithm
+      for (let i = array.length - 1; i >= 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]]; // Swap elements
       }
-    );
+      return array;
+    });
   };
 }
 
 export default shuffle;
-
-
 
 // Original filter for _config.ts:
 // site.filter("shuffle", <T>(array: T[] = []) => {
@@ -82,5 +78,3 @@ export default shuffle;
 //   }
 //   return array;
 // });
-
-

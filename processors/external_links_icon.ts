@@ -28,17 +28,18 @@ import type { Page } from "../types/lume.ts";
 export default function externalLinksIcon(siteUrlInput?: string | URL) {
   const fallbackUrl = new URL("https://example.com");
   const siteUrl = siteUrlInput
-    ? siteUrlInput instanceof URL
-      ? siteUrlInput
-      : new URL(siteUrlInput)
+    ? siteUrlInput instanceof URL ? siteUrlInput : new URL(siteUrlInput)
     : fallbackUrl;
+
+  let processedPages = 0;
+  let modifiedLinks = 0;
 
   /**
    * The plugin function that processes each page.
    * @param pages An array of Lume Page objects.
    * @returns A promise that resolves when all pages have been processed.
    */
-  return (pages: Page[]) => {
+  return function externalLinksIconProcessor(pages: Page[]) {
     for (const page of pages) {
       const document = page.document;
       if (!document) continue;
@@ -68,16 +69,26 @@ export default function externalLinksIcon(siteUrlInput?: string | URL) {
           if (isExternal) {
             // Add a Tailwind CSS class to append an external link icon (↗)
             link.classList.add("after:content-['_↗']");
+            modifiedLinks++;
           }
         } catch (e) {
           console.error(
-            `❌ Could not parse URL for link: ${href} on page ${page.src?.path ?? "unknown"}`,
+            `❌ Could not parse URL for link: ${href} on page ${
+              page.src?.path ?? "unknown"
+            }`,
             e,
           );
         }
       }
 
-      console.log(`🔗 Processed external links on: ${page.src?.path ?? "unknown"}`);
+      processedPages++;
+    }
+
+    // Log summary once instead of per-page for better performance
+    if (processedPages > 0) {
+      console.log(
+        `🔗 externalLinksIcon: Processed ${processedPages} page(s), modified ${modifiedLinks} link(s)`,
+      );
     }
   };
 }

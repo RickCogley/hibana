@@ -19,7 +19,8 @@ if (denoJson.imports?.["lume/"]) {
 
 // Add a task to run this script
 denoJson.tasks ??= {};
-denoJson.tasks["update-lume"] = "deno run --allow-read --allow-write --allow-net update_lume_version.ts";
+denoJson.tasks["update-lume"] =
+  "deno run --allow-read --allow-write --allow-net update_lume_version.ts";
 
 // Write back to deno.json
 await Deno.writeTextFile(DENO_JSON_PATH, JSON.stringify(denoJson, null, 2));

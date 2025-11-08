@@ -3,7 +3,6 @@
  * @author Rick Cogley
  */
 
-
 import { DOMParser } from "../deps.ts";
 import type { Page } from "../types/lume.ts";
 
@@ -17,7 +16,7 @@ import type { Page } from "../types/lume.ts";
  * and adds the `defer` attribute to the JS script.
  *
  * @returns A Lume plugin function that processes pages.
- * 
+ *
  * @example
  * // In your Lume _config.ts:
  * import lume from "lume/mod.ts";
@@ -33,46 +32,57 @@ import type { Page } from "../types/lume.ts";
  * export default site;
  */
 export default function deferPagefind() {
-  console.log("✅ deferPagefind plugin loaded");
+  // Cache DOMParser instance for performance (reuse across all pages)
+  const parser = new DOMParser();
+  let modifiedCount = 0;
 
   /**
    * The plugin function that processes each page.
    * @param pages An array of Lume Page objects.
    * @returns A promise that resolves when all pages have been processed.
    */
-  return (pages: Page[]) => {
+  return function deferPagefindProcessor(pages: Page[]) {
     for (const page of pages) {
       if (typeof page.content !== "string") continue;
 
-      const doc = new DOMParser().parseFromString(page.content, "text/html");
+      const doc = parser.parseFromString(page.content, "text/html");
       if (!doc) {
-        console.warn(`⚠️ Could not parse HTML for: ${page.src?.path || "unknown page"}`);
+        console.warn(
+          `⚠️ Could not parse HTML for: ${page.src?.path || "unknown page"}`,
+        );
         continue;
       }
 
       let modified = false;
 
       // Modify Pagefind CSS link
-      const cssLink = doc.querySelector('link[href="/pagefind/pagefind-ui.css"]');
+      const cssLink = doc.querySelector(
+        'link[href="/pagefind/pagefind-ui.css"]',
+      );
       if (cssLink) {
         cssLink.setAttribute("media", "print");
         cssLink.setAttribute("onload", "this.media='all'");
         modified = true;
-        console.log(`🔧 Modified CSS link in: ${page.src?.path}`);
       }
 
       // Modify Pagefind JS script
-      const jsScript = doc.querySelector('script[src="/pagefind/pagefind-ui.js"]');
+      const jsScript = doc.querySelector(
+        'script[src="/pagefind/pagefind-ui.js"]',
+      );
       if (jsScript) {
         jsScript.setAttribute("defer", "");
         modified = true;
-        console.log(`🔧 Modified JS script in: ${page.src?.path}`);
       }
 
       if (modified) {
         page.content = doc.documentElement?.outerHTML || page.content;
-        console.log(`✅ Finalized modifications for: ${page.src?.path}`);
+        modifiedCount++;
       }
+    }
+
+    // Log summary once instead of per-page for better performance
+    if (modifiedCount > 0) {
+      console.log(`✅ deferPagefind: Modified ${modifiedCount} page(s)`);
     }
   };
 }

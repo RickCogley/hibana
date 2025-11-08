@@ -15,11 +15,12 @@ for (const line of text.split("\n")) {
   if (trimmed.startsWith("export")) {
     const match = trimmed.match(/export\s+\{([^}]+)\}\s+from\s+["'](.+)["']/);
     if (match) {
-      const symbols = match[1].split(",").map(s => s.trim());
+      const symbols = match[1].split(",").map((s) => s.trim());
       const path = match[2];
       for (const symbol of symbols) exportMap[symbol] = path;
     } else if (trimmed.includes("default as")) {
-      const [, symbol, path] = trimmed.match(/default as (\w+).*from ['"](.+)['"]/) || [];
+      const [, symbol, path] =
+        trimmed.match(/default as (\w+).*from ['"](.+)['"]/) || [];
       if (symbol && path) exportMap[symbol] = path;
     }
   }
@@ -35,7 +36,9 @@ const docJson = JSON.parse(new TextDecoder().decode(raw));
 function replaceLinks(text: string): string {
   return text.replace(/\{@link\s+([^}]+)\}/g, (_, symbol) => {
     if (symbol.startsWith("http")) return `[${symbol}](${symbol})`;
-    if (exportMap[symbol]) return `[${symbol}](${githubBase}${exportMap[symbol]})`;
+    if (exportMap[symbol]) {
+      return `[${symbol}](${githubBase}${exportMap[symbol]})`;
+    }
     return symbol;
   });
 }
@@ -88,7 +91,9 @@ readme += `
 for (const item of docJson) {
   if (["function", "class", "variable"].includes(item.kind)) {
     readme += `### ${item.name}\n`;
-    readme += item.jsDoc?.doc ? replaceLinks(item.jsDoc.doc) + "\n\n" : "_No documentation._\n\n";
+    readme += item.jsDoc?.doc
+      ? replaceLinks(item.jsDoc.doc) + "\n\n"
+      : "_No documentation._\n\n";
   }
 }
 

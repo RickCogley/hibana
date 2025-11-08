@@ -1,4 +1,4 @@
-// release.ts - Final version with all features
+// release.ts
 
 // Usage:
 // deno run --allow-read --allow-write --allow-run release.ts [--dry-run]
@@ -34,7 +34,7 @@ const updateVersionInFile = async (path: string, version: string) => {
   const content = await Deno.readTextFile(path);
   const updated = content.replace(
     /\*\*Version\*\* \| [\d\.]+/,
-    `**Version** | ${version}`
+    `**Version** | ${version}`,
   );
   if (!dryRun) await Deno.writeTextFile(path, updated);
 };
@@ -56,7 +56,7 @@ const getChangelog = async (prev: string, curr: string): Promise<string> => {
   const log = await exec(
     prev
       ? ["git", "log", `${prev}..HEAD`, "--pretty=format:- %s"]
-      : ["git", "log", "--pretty=format:- %s"]
+      : ["git", "log", "--pretty=format:- %s"],
   );
   const date = new Date().toISOString().split("T")[0];
   const compareLink = prev
@@ -91,10 +91,27 @@ const main = async () => {
   await updateVersionInFile("README.md", version);
 
   console.log("Generating docs...");
-  if (!dryRun) await exec(["deno", "doc", "--html", "--name=\"Hibana Lume Helpers\"", "mod.ts"]);
+  if (!dryRun) {
+    await exec([
+      "deno",
+      "doc",
+      "--html",
+      '--name="Hibana Lume Helpers"',
+      "mod.ts",
+    ]);
+  }
 
   console.log("Running generate_readme.ts...");
-  if (!dryRun) await exec(["deno", "run", "--allow-read", "--allow-run", "--allow-write", "generate_readme.ts"]);
+  if (!dryRun) {
+    await exec([
+      "deno",
+      "run",
+      "--allow-read",
+      "--allow-run",
+      "--allow-write",
+      "generate_readme.ts",
+    ]);
+  }
 
   console.log("Generating changelog...");
   const changelogEntry = await getChangelog(prevVersion, version);

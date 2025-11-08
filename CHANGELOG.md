@@ -1,18 +1,35 @@
-## [1.0.18] - 2025-06-15
-### Added
-- Auto-generated changelog entry
-- Uploaded zipped docs as GitHub release asset
+# Changelog
 
-## [v1.0.19] - 2025-06-15
-[Full Changelog](https://github.com/RickCogley/hibana/compare/v1.0.18...v1.0.19)
+All notable changes to this project will be documented in this file.
 
-### Added
-- Feature: Automatically zip the `/docs` folder and upload it to GitHub release.
-- Feature: Append changelog entry to `CHANGELOG.md` with version and date.
+The format is based on [Keep a Changelog](https://keepachangelog.com/) and this
+project adheres to [Semantic Versioning](https://semver.org/).
+
+## [Unreleased]
+
+## [1.1.0] - 2025-11-08
 
 ### Changed
-- Improved: Release script now includes semantic changelog formatting and comparison links.
+
+- **Performance**: Reduced console logging in processors - now logs summary statistics instead of per-page messages
+- **Performance**: Cached `DOMParser` instance in `defer_pagefind` processor to avoid creating new instances for every page
+- **Debugging**: Added named function expressions to all processors (`deferPagefindProcessor`, `externalLinksIconProcessor`, `cssBannerProcessor`) so they appear correctly in Lume debug bar instead of showing as "unknown"
 
 ### Fixed
-- N/A
 
+- Type annotations added to `cssBannerProcessor` for better type safety
+
+## [0.5.0] - 2024-11-20
+
+### Added
+
+- Initial commit
+- Acknowledgements in readme
+
+### Fixed
+
+- Removed redundant name in shuffle.ts
+
+[Unreleased]: https://github.com/RickCogley/hibana/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/RickCogley/hibana/compare/v0.5.0...v1.1.0
+[0.5.0]: https://github.com/RickCogley/hibana/releases/tag/v0.5.0
