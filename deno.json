@@ -1,9 +1,20 @@
 {
   "name": "@rick/hibana",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "license": "MIT",
   "exports": "./mod.ts",
   "tasks": {
-    "update-lume": "deno run --allow-read --allow-write --allow-net update_lume_version.ts"
+    "update-lume": "deno run --allow-read --allow-write --allow-net update_lume_version.ts",
+    "test": "deno test --allow-read --unstable-temporal",
+    "check": "deno check **/*.ts",
+    "fmt": "deno fmt",
+    "lint": "deno lint",
+    "doc": "deno doc --html --name=Hibana --output=docs/api mod.ts"
+  },
+  "lint": {
+    "exclude": ["docs/", "generate_readme.ts", "generate_readme2.ts", "release.ts"],
+    "rules": {
+      "exclude": ["no-explicit-any", "no-window"]
+    }
   }
 }
