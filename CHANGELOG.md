@@ -7,13 +7,57 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.2.0] - 2025-11-21
+
+### Added
+
+- **New Filter**: `temporalDate` - Temporal API-based date formatting with
+  timezone support
+  - Multiple format styles: full, long, medium, short, iso
+  - Locale support for internationalization
+  - Handles Date objects and ISO date strings
+
+- **New Preprocessors**:
+  - `markdownMetadata` - Extract excerpts and calculate elapsed days from
+    markdown content
+  - `breadcrumbSchema` - Auto-generate Schema.org breadcrumb structured data
+    from URL paths
+  - `languageAlternatesSchema` - Link translated pages across languages using
+    Schema.org
+
+- **New Scripts**:
+  - `fixFontPaths` - Fix Google Fonts relative paths in CSS files
+    (platform-aware)
+  - `injectDoctype` - Inject DOCTYPE into HTML files (Lume 3 workaround)
+
+- **New Utilities**:
+  - `prefersReducedMotion()` - Check user's motion preference (accessibility)
+  - `detectOS()` - Detect operating system
+  - `addOSClass()` - Auto-add OS class to document body
+
+### Changed
+
+- Updated Lume dependency from v3.0.4 to v3.1.2
+- Comprehensive README documentation with examples for all new features
+- Enhanced mod.ts JSDoc comments for better API documentation
+
+### Documentation
+
+- Added CLAUDE.md for project-specific AI assistant context
+- Added comprehensive API documentation in README.md
+- Added EXTRACTION_SUMMARY.md documenting Phase 1 extraction from eSolia 2025
+
 ## [1.1.0] - 2025-11-08
 
 ### Changed
 
-- **Performance**: Reduced console logging in processors - now logs summary statistics instead of per-page messages
-- **Performance**: Cached `DOMParser` instance in `defer_pagefind` processor to avoid creating new instances for every page
-- **Debugging**: Added named function expressions to all processors (`deferPagefindProcessor`, `externalLinksIconProcessor`, `cssBannerProcessor`) so they appear correctly in Lume debug bar instead of showing as "unknown"
+- **Performance**: Reduced console logging in processors - now logs summary
+  statistics instead of per-page messages
+- **Performance**: Cached `DOMParser` instance in `defer_pagefind` processor to
+  avoid creating new instances for every page
+- **Debugging**: Added named function expressions to all processors
+  (`deferPagefindProcessor`, `externalLinksIconProcessor`, `cssBannerProcessor`)
+  so they appear correctly in Lume debug bar instead of showing as "unknown"
 
 ### Fixed
 
@@ -30,6 +74,23 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 - Removed redundant name in shuffle.ts
 
-[Unreleased]: https://github.com/RickCogley/hibana/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/RickCogley/hibana/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/RickCogley/hibana/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/RickCogley/hibana/compare/v0.5.0...v1.1.0
 [0.5.0]: https://github.com/RickCogley/hibana/releases/tag/v0.5.0
+
+## 1.1.0 - 2025-11-08
+
+### Added
+
+- feat: improve processor performance and Lume debug bar visibility
+- Adds actual path to repo
+- Allows generate_readme.ts to run with write privileges
+- Removes unneeded switch
+- Adds release.ts to be run when you want to prepare a release
+- Adds jsdoc
+- Generates readme.md file
+- Attempts to generate readme
+- Generated docs
+
+[Compare changes](https://github.com/rickcogley/hibana/compare/v1.0.18...1.1.0)
