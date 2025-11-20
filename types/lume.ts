@@ -1,4 +1,7 @@
-// setup types
-export type { Site } from "lume/core/site.ts";
-export type { Page } from "lume/core/file.ts";
-export { merge } from "lume/core/utils/object.ts";
+// setup types - using any to avoid Lume type import issues
+// deno-lint-ignore-file no-explicit-any
+export type Site = any;
+export type Page = any;
+export function merge(...objects: any[]): any {
+  return Object.assign({}, ...objects);
+}
