@@ -58,3 +58,78 @@ export function trapFocus(container: HTMLElement): void {
   // Set focus to the first focusable element when trapFocus is activated
   firstFocusable.focus();
 }
+
+/**
+ * Checks if the user prefers reduced motion based on their system settings.
+ * Important for accessibility - animations should be disabled when this returns true.
+ *
+ * @returns {boolean} True if user prefers reduced motion
+ *
+ * @example
+ * ```ts
+ * import { prefersReducedMotion } from "hibana/utils/dom_utils.ts";
+ *
+ * if (!prefersReducedMotion()) {
+ *   element.classList.add('animate-fade-in');
+ * }
+ * ```
+ */
+export function prefersReducedMotion(): boolean {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+/**
+ * Operating systems that can be detected
+ */
+export type OS =
+  | "windows-phone"
+  | "android"
+  | "ios"
+  | "mac"
+  | "windows"
+  | "unknown";
+
+/**
+ * Detects the user's operating system from the user agent string.
+ * Useful for platform-specific styling or functionality.
+ *
+ * @returns {OS} The detected operating system
+ *
+ * @example
+ * ```ts
+ * import { detectOS } from "hibana/utils/dom_utils.ts";
+ *
+ * const os = detectOS();
+ * document.body.classList.add(`os-${os}`);
+ * ```
+ */
+export function detectOS(): OS {
+  const ua = navigator.userAgent || navigator.vendor || (window as any).opera;
+
+  if (/windows phone/i.test(ua)) return "windows-phone";
+  if (/android/i.test(ua)) return "android";
+  if (/iPad|iPhone|iPod/.test(ua) && !(window as any).MSStream) return "ios";
+  if (/Mac/i.test(ua)) return "mac";
+  if (/Win/i.test(ua)) return "windows";
+
+  return "unknown";
+}
+
+/**
+ * Adds OS detection class to document body.
+ * Convenience function that automatically adds 'os-{platform}' class.
+ *
+ * @example
+ * ```ts
+ * import { addOSClass } from "hibana/utils/dom_utils.ts";
+ *
+ * // In your main.ts
+ * addOSClass(); // Adds class like 'os-mac' or 'os-windows' to <body>
+ * ```
+ */
+export function addOSClass(): void {
+  const os = detectOS();
+  if (os !== "unknown") {
+    document.body.classList.add(`os-${os}`);
+  }
+}
