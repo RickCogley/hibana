@@ -103,8 +103,8 @@ export {
 export type { FixFontPathsOptions } from "./scripts/fix_font_paths.ts";
 
 export {
-  generateDoctypeCommand,
   default as injectDoctype,
+  generateDoctypeCommand,
 } from "./scripts/inject_doctype.ts";
 export type { InjectDoctypeOptions } from "./scripts/inject_doctype.ts";
 
