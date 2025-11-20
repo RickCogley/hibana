@@ -121,7 +121,8 @@ interface BreadcrumbListSchema {
  */
 export default function breadcrumbSchema(
   options: BreadcrumbSchemaOptions,
-): (pages: Lume.Page[]) => void {
+  // deno-lint-ignore no-explicit-any
+): (pages: any[]) => void {
   const {
     baseUrl,
     homeNames,
@@ -131,7 +132,8 @@ export default function breadcrumbSchema(
     minItems = 2,
   } = options;
 
-  return (pages: Lume.Page[]): void => {
+  // deno-lint-ignore no-explicit-any
+  return (pages: any[]): void => {
     for (const page of pages) {
       const url = page.data.url;
       if (!url) continue;

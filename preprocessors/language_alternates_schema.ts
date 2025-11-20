@@ -104,7 +104,8 @@ export interface LanguageAlternatesSchemaOptions {
  */
 export default function languageAlternatesSchema(
   options: LanguageAlternatesSchemaOptions,
-): (pages: Lume.Page[]) => void {
+  // deno-lint-ignore no-explicit-any
+): (pages: any[]) => void {
   const {
     baseUrl,
     languages,
@@ -112,9 +113,11 @@ export default function languageAlternatesSchema(
     schemaFields,
   } = options;
 
-  return (pages: Lume.Page[]): void => {
+  // deno-lint-ignore no-explicit-any
+  return (pages: any[]): void => {
     // Build a map of pages by their ID and language
-    const pagesByIdAndLang = new Map<string, Map<string, Lume.Page>>();
+    // deno-lint-ignore no-explicit-any
+    const pagesByIdAndLang = new Map<string, Map<string, any>>();
 
     for (const page of pages) {
       const id = page.data.id as string | undefined;

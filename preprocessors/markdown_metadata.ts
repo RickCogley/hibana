@@ -84,7 +84,8 @@ export interface MarkdownMetadataOptions {
  */
 export default function markdownMetadata(
   options: MarkdownMetadataOptions = {},
-): (pages: Lume.Page[]) => void {
+  // deno-lint-ignore no-explicit-any
+): (pages: any[]) => void {
   const {
     excerptMarker = "<!-- more -->",
     calculateElapsed = true,
@@ -93,9 +94,16 @@ export default function markdownMetadata(
 
   // Create regex pattern for excerpt marker
   const pattern = excerptPattern ||
-    new RegExp(`<!--\\s*${excerptMarker.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace("<!--", "").replace("-->", "").trim()}\\s*-->`, "i");
+    new RegExp(
+      `<!--\\s*${
+        excerptMarker.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace("<!--", "")
+          .replace("-->", "").trim()
+      }\\s*-->`,
+      "i",
+    );
 
-  return (pages: Lume.Page[]): void => {
+  // deno-lint-ignore no-explicit-any
+  return (pages: any[]): void => {
     const now = calculateElapsed ? Temporal.Now.instant() : null;
 
     for (const page of pages) {

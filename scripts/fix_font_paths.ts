@@ -135,7 +135,8 @@ export function generateFontPathFixes(
 
     return {
       name,
-      command: `sed ${sedFlag} 's|url(\\"${fontDir}/|url(\\"/$ {fontDir}/|g' ${filePath}`,
+      command:
+        `sed ${sedFlag} 's|url(\\"${fontDir}/|url(\\"/$ {fontDir}/|g' ${filePath}`,
     };
   });
 }

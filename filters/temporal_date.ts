@@ -144,7 +144,7 @@ export default function temporalDate(
             timeZone: defaultTimezone,
           };
           break;
-        case "iso":
+        case "iso": {
           // Return ISO format like "16 Nov 2025" - use en-GB locale for day-month-year order
           const isoFormatter = new Intl.DateTimeFormat("en-GB", {
             year: "numeric",
@@ -153,7 +153,8 @@ export default function temporalDate(
             timeZone: defaultTimezone,
           });
           return isoFormatter.format(zonedDateTime.epochMilliseconds);
-        default:
+        }
+        default: {
           // Use format as-is if it's a preset
           formatOptions = {
             year: "numeric",
@@ -161,6 +162,7 @@ export default function temporalDate(
             day: "numeric",
             timeZone: defaultTimezone,
           };
+        }
       }
 
       // Determine locale (parameter overrides default)
