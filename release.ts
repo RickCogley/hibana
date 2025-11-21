@@ -67,11 +67,11 @@ const getChangelog = async (prev: string, curr: string): Promise<string> => {
   }`;
 };
 
-const zipDocs = async () => {
-  if (!dryRun) {
-    await exec(["zip", "-r", "docs.zip", "docs"]);
-  }
-};
+// const zipDocs = async () => {
+//   if (!dryRun) {
+//     await exec(["zip", "-r", "docs.zip", "docs"]);
+//   }
+// };
 
 const openReleasePage = async (version: string) => {
   const url = `https://github.com/rickcogley/hibana/releases/tag/${version}`;
@@ -118,8 +118,8 @@ const main = async () => {
   console.log(changelogEntry);
   await appendText("CHANGELOG.md", changelogEntry);
 
-  console.log("Zipping docs...");
-  await zipDocs();
+  // console.log("Zipping docs...");
+  // await zipDocs();
 
   if (!dryRun) {
     console.log("Creating git tag...");
