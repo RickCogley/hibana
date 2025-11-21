@@ -86,7 +86,7 @@ export default function fixFontPaths(
     // Linux sed doesn't require it
     const sedFlag = isMacOS ? "-i ''" : "-i";
 
-    return `sed ${sedFlag} 's|url(\\"${fontDir}/|url(\\"/$ {fontDir}/|g' ${filePath}`;
+    return `sed ${sedFlag} 's|url(\\"${fontDir}/|url(\\"/${fontDir}/|g' ${filePath}`;
   });
 
   // Join all commands with &&
@@ -136,7 +136,7 @@ export function generateFontPathFixes(
     return {
       name,
       command:
-        `sed ${sedFlag} 's|url(\\"${fontDir}/|url(\\"/$ {fontDir}/|g' ${filePath}`,
+        `sed ${sedFlag} 's|url(\\"${fontDir}/|url(\\"/${fontDir}/|g' ${filePath}`,
     };
   });
 }
