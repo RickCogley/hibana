@@ -7,6 +7,14 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.2.1] - 2025-11-21
+
+### Fixed
+
+- Fixed template literal syntax bug in `fixFontPaths` script that caused incorrect sed command generation
+  - Changed `$ {fontDir}` to `${fontDir}` in both `fixFontPaths` and `generateFontPathFixes` functions
+  - Bug was causing literal string `/$ {fontDir}/` in CSS output instead of actual font directory paths
+
 ## [1.2.0] - 2025-11-21
 
 ### Added
@@ -74,7 +82,8 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 - Removed redundant name in shuffle.ts
 
-[Unreleased]: https://github.com/RickCogley/hibana/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/RickCogley/hibana/compare/v1.2.1...HEAD
+[1.2.1]: https://github.com/RickCogley/hibana/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/RickCogley/hibana/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/RickCogley/hibana/compare/v0.5.0...v1.1.0
 [0.5.0]: https://github.com/RickCogley/hibana/releases/tag/v0.5.0

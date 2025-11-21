@@ -6,7 +6,7 @@ enhance Lume static site generation projects.
 
 | Hibana         | Specifications                                                               |
 | -------------- | ---------------------------------------------------------------------------- |
-| **Version**    | 1.2.0                                                                        |
+| **Version**    | 1.2.1                                                                        |
 | **Repository** | [https://github.com/RickCogley/hibana](https://github.com/RickCogley/hibana) |
 | **License**    | MIT                                                                          |
 | **Author**     | Rick Cogley                                                                  |
@@ -19,7 +19,7 @@ Add `hibana` to your Lume project's `deno.json` import map:
 {
   "imports": {
     "lume/": "https://deno.land/x/lume@v3.1.2/",
-    "hibana/": "https://deno.land/x/hibana@v1.2.0/"
+    "hibana/": "https://deno.land/x/hibana@v1.2.1/"
   }
 }
 ```
@@ -29,7 +29,7 @@ Or import directly from GitHub:
 ```json
 {
   "imports": {
-    "hibana/": "https://raw.githubusercontent.com/RickCogley/hibana/v1.2.0/"
+    "hibana/": "https://raw.githubusercontent.com/RickCogley/hibana/v1.2.1/"
   }
 }
 ```
