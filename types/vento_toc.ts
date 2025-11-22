@@ -40,6 +40,15 @@ export interface HeadingAnchorsOptions {
   maxLevel?: number;
 
   /**
+   * CSS selector to limit heading extraction to a specific container
+   * Useful to exclude headings from sidebars, navigation, etc.
+   * @default undefined (all headings)
+   * @example "article" - only headings inside <article> tags
+   * @example "#main-content" - only headings inside element with that ID
+   */
+  containerSelector?: string;
+
+  /**
    * Value of the tabindex attribute on headings, set to false to disable
    * @default -1
    */
@@ -111,6 +120,14 @@ export interface TOCGeneratorOptions {
    * @default ["vto"]
    */
   includeTemplateEngines?: string[];
+
+  /**
+   * CSS selector to limit heading extraction to a specific container
+   * Useful to exclude headings from sidebars, navigation, etc.
+   * @default undefined (all headings)
+   * @example "article" - only headings inside <article> tags
+   */
+  containerSelector?: string;
 }
 
 /**

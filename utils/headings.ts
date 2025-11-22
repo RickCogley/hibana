@@ -6,32 +6,49 @@
 import type { HeadingData } from "../types/vento_toc.ts";
 
 /**
- * Extracts heading elements from a document.
+ * Extracts heading elements from a document or container.
  *
  * @param document - The DOM document to extract headings from
  * @param minLevel - Minimum heading level to include (default: 2)
  * @param maxLevel - Maximum heading level to include (default: 6)
+ * @param containerSelector - Optional CSS selector to limit extraction scope (e.g., "article", "#main-content")
  * @returns Array of heading elements
  *
  * @example
  * ```ts
+ * // Extract all h2-h4 from entire document
  * const headings = extractHeadingElements(page.document, 2, 4);
- * // Returns all h2, h3, h4 elements
+ *
+ * // Extract only from main content area
+ * const contentHeadings = extractHeadingElements(page.document, 2, 4, "article");
  * ```
  */
 export function extractHeadingElements(
   document: Document,
   minLevel = 2,
   maxLevel = 6,
+  containerSelector?: string,
 ): Element[] {
   // Generate selector for heading levels (e.g., "h2, h3, h4")
   const levels: string[] = [];
   for (let i = minLevel; i <= maxLevel; i++) {
     levels.push(`h${i}`);
   }
-  const selector = levels.join(", ");
+  const headingSelector = levels.join(", ");
 
-  return Array.from(document.querySelectorAll(selector));
+  // If container selector provided, scope to that container
+  if (containerSelector) {
+    const container = document.querySelector(containerSelector);
+    if (!container) {
+      console.warn(
+        `⚠️  extractHeadingElements: Container "${containerSelector}" not found`,
+      );
+      return [];
+    }
+    return Array.from(container.querySelectorAll(headingSelector));
+  }
+
+  return Array.from(document.querySelectorAll(headingSelector));
 }
 
 /**

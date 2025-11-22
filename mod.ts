@@ -76,6 +76,7 @@ export { default as deferPagefind } from "./processors/defer_pagefind.ts";
 export { default as externalLinksIcon } from "./processors/external_links_icon.ts";
 export { default as ventoHeadingAnchors } from "./processors/vento_heading_anchors.ts";
 export { default as ventoTOC } from "./processors/vento_toc.ts";
+export { default as ventoTOCInject } from "./processors/vento_toc_inject.ts";
 export type {
   HeadingAnchorsOptions,
   TOCGeneratorOptions,

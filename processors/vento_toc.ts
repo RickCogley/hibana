@@ -185,6 +185,7 @@ export default function ventoTOC(
         document,
         options.level,
         options.maxLevel,
+        options.containerSelector,
       );
 
       if (headings.length === 0) {

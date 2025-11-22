@@ -144,6 +144,7 @@ export default function ventoHeadingAnchors(
         document,
         options.level,
         options.maxLevel,
+        options.containerSelector,
       );
 
       if (headings.length === 0) {
