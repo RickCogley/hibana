@@ -8,16 +8,22 @@ import type { HeadingAnchorsOptions } from "../types/vento_toc.ts";
 import { extractHeadingElements, getHeadingText } from "../utils/headings.ts";
 import { UniqueSlugGenerator } from "../utils/slugify.ts";
 
-/** Default options for heading anchors processor */
+/** Default options for heading anchors processor
+ *
+ * Defaults match markdown-it-toc-done-right behavior:
+ * - Anchor wraps heading text (anchorPosition: "inside")
+ * - No visible symbol (anchorSymbol: "") - expects CSS ::before icon
+ * - Uses "header-anchor" class for styling hook
+ */
 export const defaults: Required<
   Omit<HeadingAnchorsOptions, "slugify">
 > & Pick<HeadingAnchorsOptions, "slugify"> = {
   level: 2,
   maxLevel: 6,
   tabIndex: -1,
-  anchorPosition: "outside",
+  anchorPosition: "inside", // Match markdown-it: wrap heading text in anchor
   anchorClass: "header-anchor",
-  anchorSymbol: "#",
+  anchorSymbol: "", // Empty by default - use CSS ::before for icon
   ariaLabel: "Permalink",
   includeTemplateEngines: ["vto"],
   slugify: undefined,
@@ -68,11 +74,16 @@ function shouldProcessPage(
  *
  * const site = lume();
  *
- * // Add heading anchors to Vento pages
+ * // Add heading anchors to Vento pages (matches markdown-it style by default)
  * site.process([".html"], ventoHeadingAnchors({
  *   level: 2,              // Start at h2
  *   maxLevel: 4,           // End at h4
- *   anchorPosition: "outside",  // Place # after heading text
+ * }));
+ *
+ * // Or customize for different style (e.g., visible # symbol outside)
+ * site.process([".html"], ventoHeadingAnchors({
+ *   anchorPosition: "outside",  // Place anchor after heading text
+ *   anchorSymbol: "#",          // Visible # symbol
  * }));
  * ```
  *
@@ -82,15 +93,15 @@ function shouldProcessPage(
  * <h2>Introduction</h2>
  * <h3>Getting Started</h3>
  *
- * <!-- Output (anchorPosition: "outside") -->
+ * <!-- Output (default: anchorPosition "inside", no symbol) -->
  * <h2 id="introduction" tabindex="-1">
- *   Introduction
- *   <a href="#introduction" class="header-anchor" aria-label="Permalink">#</a>
+ *   <a href="#introduction" class="header-anchor" aria-label="Permalink">Introduction</a>
  * </h2>
  * <h3 id="getting-started" tabindex="-1">
- *   Getting Started
- *   <a href="#getting-started" class="header-anchor" aria-label="Permalink">#</a>
+ *   <a href="#getting-started" class="header-anchor" aria-label="Permalink">Getting Started</a>
  * </h3>
+ *
+ * <!-- Styled with CSS ::before for link icon (like markdown-it-toc-done-right) -->
  * ```
  */
 export default function ventoHeadingAnchors(
