@@ -31,6 +31,9 @@ export const defaults: Required<
 
 /**
  * Checks if a page should be processed based on its template engine.
+ *
+ * IMPORTANT: Skips markdown pages even if they also use Vento, since
+ * markdown-it plugins already handle anchor generation for those pages.
  */
 function shouldProcessPage(
   page: Page,
@@ -42,12 +45,15 @@ function shouldProcessPage(
     return false;
   }
 
-  // Handle both string and array template engines
+  // Skip markdown pages - they get anchors from markdown-it plugins
   if (typeof engine === "string") {
+    if (engine === "md") return false;
     return includeTemplateEngines.includes(engine);
   }
 
   if (Array.isArray(engine)) {
+    // Skip if markdown is in the chain (e.g., ["md", "vto"])
+    if (engine.includes("md")) return false;
     return engine.some((e) => includeTemplateEngines.includes(e));
   }
 
