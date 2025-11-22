@@ -17,6 +17,7 @@
  * - {@link externalLinksIcon} - A processor to add external link icons to `target="_blank"` links.
  * - {@link ventoHeadingAnchors} - A processor to add anchor links to headings in Vento pages.
  * - {@link ventoTOC} - A processor to generate table of contents from headings in Vento pages.
+ * - {@link ventoTOCInject} - A processor to inject TOC HTML into rendered pages at marker position.
  * - {@link temporalDate} - A Temporal API-based date filter with timezone support.
  * - {@link markdownMetadata} - Extract excerpts and calculate elapsed days from markdown.
  * - {@link breadcrumbSchema} - Auto-generate Schema.org breadcrumbs from URLs.
@@ -57,6 +58,7 @@
  *   externalLinksIcon,
  *   ventoHeadingAnchors,
  *   ventoTOC,
+ *   ventoTOCInject,
  *   temporalDate,
  *   markdownMetadata,
  *   breadcrumbSchema,

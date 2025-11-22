@@ -48,6 +48,9 @@ Or import directly from GitHub:
 - **[deferPagefind](#deferpagefind)** - Defer Pagefind CSS and JS loading
 - **[externalLinksIcon](#externallinksicon)** - Add external link icons to
   `target="_blank"` links
+- **[ventoHeadingAnchors](#ventoheadinganchors)** - Add anchor links to headings in Vento pages
+- **[ventoTOC](#ventotoc)** - Generate table of contents from headings in Vento pages
+- **[ventoTOCInject](#ventotocinject)** - Inject TOC HTML into rendered pages at marker position
 
 ### Filters
 
@@ -196,6 +199,345 @@ const site = lume();
 // Specify the base URL
 site.process([".html"], externalLinksIcon("https://esolia.co.jp"));
 site.process([".html"], deferPagefind());
+
+export default site;
+```
+
+---
+
+#### `ventoHeadingAnchors`
+
+Adds ID attributes and anchor links to heading elements in Vento-rendered pages.
+
+This processor enables deep-linking to headings in pure Vento (.vto) pages, matching the functionality that markdown-it plugins provide for markdown pages. It automatically generates unique slugs for headings and adds clickable anchor links.
+
+**Important:** This processor should run **before** `ventoTOC` to ensure headings have IDs before TOC generation.
+
+**Features:**
+
+- Adds unique `id` attributes to headings (H2-H6)
+- Generates slugs from heading text with collision prevention
+- Adds anchor links with configurable position and styling
+- Matches markdown-it-toc-done-right behavior by default
+- Supports `containerSelector` to limit scope to main content
+- Only processes pure Vento pages (skips markdown pages)
+
+**Parameters:**
+
+- `userOptions`: `HeadingAnchorsOptions` (optional)
+  - `level`: `number` - Minimum heading level to process (default: `2`)
+  - `maxLevel`: `number` - Maximum heading level to process (default: `6`)
+  - `tabIndex`: `number | false` - Tab index for headings (default: `-1`)
+  - `anchorPosition`: `"inside" | "outside"` - Where to place anchor (default: `"inside"`)
+  - `anchorClass`: `string` - CSS class for anchor element (default: `"header-anchor"`)
+  - `anchorSymbol`: `string` - Visible anchor text (default: `""` - use CSS ::before)
+  - `ariaLabel`: `string` - Aria label for anchor (default: `"Permalink"`)
+  - `includeTemplateEngines`: `string[]` - Template engines to process (default: `["vto"]`)
+  - `containerSelector`: `string` - CSS selector to limit extraction scope (optional)
+  - `slugify`: `(text: string) => string` - Custom slug generator (optional)
+
+**Example:**
+
+```ts
+// In your Lume _config.ts:
+import lume from "lume/mod.ts";
+import { ventoHeadingAnchors, ventoTOC, ventoTOCInject } from "hibana/mod.ts";
+
+const site = lume();
+
+// Add heading anchors (matches markdown-it style by default)
+site.process([".html"], ventoHeadingAnchors({
+  level: 2,              // Start at h2
+  maxLevel: 4,           // End at h4
+  containerSelector: "article", // Only process headings in <article>
+}));
+
+// Then generate TOC
+site.process([".html"], ventoTOC({
+  level: 2,
+  maxLevel: 4,
+  containerSelector: "article",
+}));
+
+// Finally inject TOC HTML
+site.process([".html"], ventoTOCInject());
+
+export default site;
+```
+
+**Output:**
+
+```html
+<!-- Input -->
+<article>
+  <h2>Introduction</h2>
+  <h3>Getting Started</h3>
+</article>
+
+<!-- Output (default: anchorPosition "inside", no symbol) -->
+<article>
+  <h2 id="introduction" tabindex="-1">
+    <a href="#introduction" class="header-anchor" aria-label="Permalink">Introduction</a>
+  </h2>
+  <h3 id="getting-started" tabindex="-1">
+    <a href="#getting-started" class="header-anchor" aria-label="Permalink">Getting Started</a>
+  </h3>
+</article>
+
+<!-- Styled with CSS ::before for link icon -->
+```
+
+**CSS Example:**
+
+```css
+.header-anchor::before {
+  content: "#";
+  position: absolute;
+  left: -1em;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+h2:hover .header-anchor::before,
+h3:hover .header-anchor::before {
+  opacity: 1;
+}
+```
+
+---
+
+#### `ventoTOC`
+
+Generates a hierarchical table of contents (TOC) data structure from headings in Vento-rendered pages.
+
+This processor extracts headings and builds a nested tree structure stored in `page.data.toc`. It's designed to work alongside `ventoTOCInject` to provide TOC functionality for pure Vento pages.
+
+**Important:**
+- Run this **after** `ventoHeadingAnchors` (headings need IDs first)
+- Run this **before** `ventoTOCInject` (injection needs TOC data)
+- Due to Lume's build order (processors run after layouts), use `ventoTOCInject` to actually display the TOC
+
+**Features:**
+
+- Builds hierarchical TOC tree from headings
+- Stores data in `page.data.toc` for template access
+- Generates full URLs with anchors for each heading
+- Supports `containerSelector` to limit scope
+- Only processes pure Vento pages (skips markdown pages)
+- Respects `show_toc` frontmatter setting
+
+**Parameters:**
+
+- `userOptions`: `TOCGeneratorOptions` (optional)
+  - `level`: `number` - Minimum heading level (default: `2`)
+  - `maxLevel`: `number` - Maximum heading level (default: `6`)
+  - `key`: `string` - Page data key for TOC (default: `"toc"`)
+  - `includeTemplateEngines`: `string[]` - Engines to process (default: `["vto"]`)
+  - `containerSelector`: `string` - CSS selector to limit extraction scope (optional)
+
+**Example:**
+
+```ts
+// In your Lume _config.ts:
+import lume from "lume/mod.ts";
+import { ventoHeadingAnchors, ventoTOC, ventoTOCInject } from "hibana/mod.ts";
+
+const site = lume();
+
+// Process headings in order
+site.process([".html"], ventoHeadingAnchors({
+  level: 2,
+  maxLevel: 4,
+  containerSelector: "article", // Only main content
+}));
+
+site.process([".html"], ventoTOC({
+  level: 2,
+  maxLevel: 4,
+  key: "toc",  // Stores in page.data.toc
+  containerSelector: "article", // Match heading anchors scope
+}));
+
+site.process([".html"], ventoTOCInject());
+
+export default site;
+```
+
+**TOC Data Structure:**
+
+```ts
+interface TOCNode {
+  level: number;        // Heading level (2-6)
+  text: string;         // Heading text content
+  slug: string;         // URL-safe slug from id attribute
+  url: string;          // Full URL with anchor (#slug)
+  children: TOCNode[];  // Nested child headings
+}
+```
+
+**Example Output:**
+
+```ts
+// page.data.toc contains:
+[
+  {
+    level: 2,
+    text: "Introduction",
+    slug: "introduction",
+    url: "/page/#introduction",
+    children: [
+      {
+        level: 3,
+        text: "Getting Started",
+        slug: "getting-started",
+        url: "/page/#getting-started",
+        children: []
+      }
+    ]
+  }
+]
+```
+
+---
+
+#### `ventoTOCInject`
+
+Injects TOC HTML into rendered pages at a marker position, working around Lume's build order limitation.
+
+**The Problem:** Lume's build order is: Preprocessors → Template Rendering → **Layout Rendering** → Processors. Since processors run **after** layouts render, `page.data.toc` isn't available when the layout template executes.
+
+**The Solution:** This processor finds a marker comment in the rendered HTML and replaces it with generated TOC HTML. This allows TOCs to appear in layouts even though the data is generated after layout rendering.
+
+**Features:**
+
+- Injects complete TOC HTML structure at marker position
+- Respects `show_toc` frontmatter (skips if `false`)
+- Matches styling from existing markdown TOCs
+- Checks for punchlist/topic to add proper spacing
+- Only processes pages with TOC data
+
+**Parameters:**
+
+None - automatically processes all pages with TOC data.
+
+**Example:**
+
+```ts
+// In your Lume _config.ts:
+import lume from "lume/mod.ts";
+import { ventoHeadingAnchors, ventoTOC, ventoTOCInject } from "hibana/mod.ts";
+
+const site = lume();
+
+// Standard processor order
+site.process([".html"], ventoHeadingAnchors({
+  level: 2,
+  maxLevel: 4,
+  containerSelector: "article",
+}));
+site.process([".html"], ventoTOC({
+  level: 2,
+  maxLevel: 4,
+  containerSelector: "article",
+}));
+site.process([".html"], ventoTOCInject());
+
+export default site;
+```
+
+**Layout Template:**
+
+```vto
+<!-- In your layout (e.g., layouts/docs.vto) -->
+<div class="sidebar">
+  <!-- Other sidebar content -->
+
+  <!-- VENTO-TOC-INJECTION-POINT: This comment will be replaced by processor -->
+
+  <!-- Fallback TOC template for markdown pages -->
+  {{ if toc && toc.length > 0 }}
+    <nav aria-labelledby="toc-title">
+      <!-- TOC markup -->
+    </nav>
+  {{ /if }}
+</div>
+```
+
+**Frontmatter Control:**
+
+```yaml
+---
+title: My Page
+show_toc: true  # TOC will be injected
+---
+
+# Or disable TOC for specific pages:
+---
+title: Another Page
+show_toc: false  # No TOC injection
+---
+```
+
+**How It Works:**
+
+1. `ventoTOC` generates TOC data and stores in `page.data.toc`
+2. Layout renders with marker comment: `<!-- VENTO-TOC-INJECTION-POINT: -->`
+3. `ventoTOCInject` finds the marker in rendered HTML
+4. Marker is replaced with complete TOC HTML structure
+5. Result: TOC appears in final output
+
+**Generated HTML:**
+
+```html
+<nav aria-labelledby="on-this-page-title" class="w-56">
+  <h2 id="on-this-page-title" class="font-display text-sm">
+    On this page
+  </h2>
+  <ol role="list" class="mt-4 space-y-3 text-sm">
+    <li>
+      <h3>
+        <a href="#introduction" class="toc-link" data-toc-id="introduction">
+          Introduction
+        </a>
+      </h3>
+      <ol role="list" class="mt-2 space-y-3 pl-5">
+        <li>
+          <a href="#getting-started" class="toc-link" data-toc-id="getting-started">
+            Getting Started
+          </a>
+        </li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+```
+
+**Complete Workflow:**
+
+```ts
+// _config.ts - Complete setup
+import lume from "lume/mod.ts";
+import { ventoHeadingAnchors, ventoTOC, ventoTOCInject } from "hibana/mod.ts";
+
+const site = lume();
+
+// 1. Add IDs and anchors to headings
+site.process([".html"], ventoHeadingAnchors({
+  level: 2,
+  maxLevel: 4,
+  containerSelector: "article", // Only <article> headings
+}));
+
+// 2. Generate TOC data structure
+site.process([".html"], ventoTOC({
+  level: 2,
+  maxLevel: 4,
+  key: "toc",
+  containerSelector: "article", // Match heading scope
+}));
+
+// 3. Inject TOC HTML at marker
+site.process([".html"], ventoTOCInject());
 
 export default site;
 ```
