@@ -15,6 +15,9 @@
  * - {@link shuffle} - A plugin to add a shuffle filter for arrays.
  * - {@link deferPagefind} - A processor to defer Pagefind CSS and JS loading.
  * - {@link externalLinksIcon} - A processor to add external link icons to `target="_blank"` links.
+ * - {@link ventoHeadingAnchors} - A processor to add anchor links to headings in Vento pages.
+ * - {@link ventoTOC} - A processor to generate table of contents from headings in Vento pages.
+ * - {@link ventoTOCInject} - A processor to inject TOC HTML into rendered pages at marker position.
  * - {@link temporalDate} - A Temporal API-based date filter with timezone support.
  * - {@link markdownMetadata} - Extract excerpts and calculate elapsed days from markdown.
  * - {@link breadcrumbSchema} - Auto-generate Schema.org breadcrumbs from URLs.
@@ -53,6 +56,9 @@
  *   shuffle,
  *   deferPagefind,
  *   externalLinksIcon,
+ *   ventoHeadingAnchors,
+ *   ventoTOC,
+ *   ventoTOCInject,
  *   temporalDate,
  *   markdownMetadata,
  *   breadcrumbSchema,
@@ -70,6 +76,14 @@ export { default as shuffle } from "./plugins/shuffle.ts";
 // Processors
 export { default as deferPagefind } from "./processors/defer_pagefind.ts";
 export { default as externalLinksIcon } from "./processors/external_links_icon.ts";
+export { default as ventoHeadingAnchors } from "./processors/vento_heading_anchors.ts";
+export { default as ventoTOC } from "./processors/vento_toc.ts";
+export { default as ventoTOCInject } from "./processors/vento_toc_inject.ts";
+export type {
+  HeadingAnchorsOptions,
+  TOCGeneratorOptions,
+  TOCNode,
+} from "./types/vento_toc.ts";
 
 // Filters
 export { default as temporalDate } from "./filters/temporal_date.ts";
