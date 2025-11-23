@@ -102,7 +102,7 @@ export function extractHeadingData(
     text: getHeadingText(element),
     slug: "", // Will be filled in by slug generator
     element,
-  })).map((heading, _index, allHeadings) => {
+  })).map((heading, _index, _allHeadings) => {
     // Generate slug from text
     heading.slug = slugify(heading.text);
     return heading;

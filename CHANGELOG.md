@@ -7,13 +7,64 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.3.0] - 2025-11-23
+
+### Added
+
+- **New Processors for Vento Pages**:
+  - `ventoHeadingAnchors` - Add ID attributes and anchor links to headings in
+    Vento-rendered pages
+    - Automatic unique slug generation with collision prevention
+    - Configurable heading levels (min/max) and anchor positioning
+    - Matches markdown-it-toc-done-right behavior by default
+    - Supports `containerSelector` option to limit scope to main content
+  - `ventoTOC` - Generate hierarchical table of contents from headings in Vento
+    pages
+    - Builds nested TOC tree structure stored in `page.data.toc`
+    - Generates full URLs with anchors for each heading
+    - Supports `containerSelector` option for scoped extraction
+  - `ventoTOCInject` - Inject TOC HTML into rendered pages at marker position
+    - Works around Lume's build order limitation (processors run after layouts)
+    - Finds `<!-- VENTO-TOC-INJECTION-POINT: -->` marker and replaces with TOC
+      HTML
+    - Respects `show_toc` frontmatter setting
+
+- **New Utility Modules**:
+  - `utils/slugify.ts` - URL-safe slug generation from text
+  - `utils/headings.ts` - Heading extraction and manipulation utilities
+  - `types/vento_toc.ts` - TypeScript types for TOC functionality
+
+### Changed
+
+- `ventoHeadingAnchors` default behavior now matches markdown-it style:
+  - `anchorPosition: "inside"` (anchor wraps heading text)
+  - `anchorSymbol: ""` (empty - use CSS ::before for icon)
+  - Ensures consistent appearance between Vento and markdown pages
+
+### Fixed
+
+- Prevent duplicate anchors/TOC on markdown pages by skipping pages with "md" in
+  templateEngine chain
+- Only pure Vento pages (templateEngine: ["vto"]) are now processed by Vento
+  processors
+
+### Documentation
+
+- Comprehensive documentation for all three Vento TOC processors in README
+- Complete workflow examples showing processor ordering
+- CSS styling examples for anchor links
+- Explanation of Lume build order and HTML injection solution
+
 ## [1.2.1] - 2025-11-21
 
 ### Fixed
 
-- Fixed template literal syntax bug in `fixFontPaths` script that caused incorrect sed command generation
-  - Changed `$ {fontDir}` to `${fontDir}` in both `fixFontPaths` and `generateFontPathFixes` functions
-  - Bug was causing literal string `/$ {fontDir}/` in CSS output instead of actual font directory paths
+- Fixed template literal syntax bug in `fixFontPaths` script that caused
+  incorrect sed command generation
+  - Changed `$ {fontDir}` to `${fontDir}` in both `fixFontPaths` and
+    `generateFontPathFixes` functions
+  - Bug was causing literal string `/$ {fontDir}/` in CSS output instead of
+    actual font directory paths
 
 ## [1.2.0] - 2025-11-21
 
@@ -82,7 +133,8 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 - Removed redundant name in shuffle.ts
 
-[Unreleased]: https://github.com/RickCogley/hibana/compare/v1.2.1...HEAD
+[Unreleased]: https://github.com/RickCogley/hibana/compare/v1.3.0...HEAD
+[1.3.0]: https://github.com/RickCogley/hibana/compare/v1.2.1...v1.3.0
 [1.2.1]: https://github.com/RickCogley/hibana/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/RickCogley/hibana/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/RickCogley/hibana/compare/v0.5.0...v1.1.0
