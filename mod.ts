@@ -3,7 +3,7 @@
  *
  * | Hibana | Specifications |
  * | ------- | ------- |
- * | **Version** | 1.2.1 |
+ * | **Version** | 1.3.0 |
  * | **Repository** | {@link https://github.com/RickCogley/hibana} |
  * | **API Docs**   | [https://hibana.esolia.deno.net](https://hibana.esolia.deno.net) |
  * | **Distribution** | [https://deno.land/x/hibana](https://deno.land/x/hibana) |
@@ -41,12 +41,12 @@
  *   "lume/": "https://deno.land/x/lume@v3.0.3/",
  *   "lume/cms/": "https://cdn.jsdelivr.net/gh/lumeland/cms@0.12.0/",
  *   "lume/jsx-runtime": "https://deno.land/x/ssx@v0.1.10/jsx-runtime.ts",
- *   "hibana/": "https://deno.land/x/hibana@v1.2.1/"
+ *   "hibana/": "https://deno.land/x/hibana@v1.3.0/"
  * },...
  * ```
  * @example Or you can import `hibana` directly from GitHub:
  * ```ts
- * "hibana/": "https://raw.githubusercontent.com/RickCogley/hibana/v1.2.1/"
+ * "hibana/": "https://raw.githubusercontent.com/RickCogley/hibana/v1.3.0/"
  * ```
  *
  * @example Then import `hibana` into your Lume `_config.ts`:

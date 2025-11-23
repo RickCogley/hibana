@@ -15,19 +15,22 @@ import { UniqueSlugGenerator } from "../utils/slugify.ts";
  * - No visible symbol (anchorSymbol: "") - expects CSS ::before icon
  * - Uses "header-anchor" class for styling hook
  */
-export const defaults: Required<
-  Omit<HeadingAnchorsOptions, "slugify">
-> & Pick<HeadingAnchorsOptions, "slugify"> = {
-  level: 2,
-  maxLevel: 6,
-  tabIndex: -1,
-  anchorPosition: "inside", // Match markdown-it: wrap heading text in anchor
-  anchorClass: "header-anchor",
-  anchorSymbol: "", // Empty by default - use CSS ::before for icon
-  ariaLabel: "Permalink",
-  includeTemplateEngines: ["vto"],
-  slugify: undefined,
-};
+export const defaults:
+  & Required<
+    Omit<HeadingAnchorsOptions, "slugify" | "containerSelector">
+  >
+  & Pick<HeadingAnchorsOptions, "slugify" | "containerSelector"> = {
+    level: 2,
+    maxLevel: 6,
+    tabIndex: -1,
+    anchorPosition: "inside", // Match markdown-it: wrap heading text in anchor
+    anchorClass: "header-anchor",
+    anchorSymbol: "", // Empty by default - use CSS ::before for icon
+    ariaLabel: "Permalink",
+    includeTemplateEngines: ["vto"],
+    containerSelector: undefined,
+    slugify: undefined,
+  };
 
 /**
  * Checks if a page should be processed based on its template engine.
@@ -112,7 +115,7 @@ function shouldProcessPage(
  */
 export default function ventoHeadingAnchors(
   userOptions: HeadingAnchorsOptions = {},
-) {
+): (pages: Page[]) => void {
   // Merge user options with defaults
   const options: Required<Omit<HeadingAnchorsOptions, "slugify">> & {
     slugify?: (text: string) => string;

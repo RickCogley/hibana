@@ -1,5 +1,5 @@
 // src/_processors/external_links_icon.test.ts
-import { DOMParser, assertEquals } from "../../deps.ts";
+import { assertEquals, DOMParser } from "../../deps.ts";
 import externalLinksIcon from "../external_links_icon.ts";
 
 Deno.test("adds external icon class to external links", () => {

@@ -98,7 +98,7 @@ function hasPunchlistOrTopic(page: Page): boolean {
 /**
  * Injects TOC HTML into pages at the injection marker
  */
-export default function ventoTOCInject() {
+export default function ventoTOCInject(): (pages: Page[]) => void {
   let injectedCount = 0;
 
   return function ventoTOCInjectProcessor(pages: Page[]) {

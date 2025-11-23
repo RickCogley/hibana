@@ -4,14 +4,14 @@ The `hibana` library provides a comprehensive collection of Lume helper plugins,
 processors, filters, preprocessors, scripts, and utility functions designed to
 enhance Lume static site generation projects.
 
-| Hibana         | Specifications                                                               |
-| -------------- | ---------------------------------------------------------------------------- |
-| **Version**    | 1.2.1                                                                        |
-| **Repository** | [https://github.com/RickCogley/hibana](https://github.com/RickCogley/hibana) |
-| **API Docs**   | [https://hibana.esolia.deno.net](https://hibana.esolia.deno.net)             |
-| **Distribution** | [https://deno.land/x/hibana](https://deno.land/x/hibana)                   |
-| **License**    | MIT                                                                          |
-| **Author**     | Rick Cogley                                                                  |
+| Hibana           | Specifications                                                               |
+| ---------------- | ---------------------------------------------------------------------------- |
+| **Version**      | 1.3.0                                                                        |
+| **Repository**   | [https://github.com/RickCogley/hibana](https://github.com/RickCogley/hibana) |
+| **API Docs**     | [https://hibana.esolia.deno.net](https://hibana.esolia.deno.net)             |
+| **Distribution** | [https://deno.land/x/hibana](https://deno.land/x/hibana)                     |
+| **License**      | MIT                                                                          |
+| **Author**       | Rick Cogley                                                                  |
 
 ## Installation
 
@@ -21,7 +21,7 @@ Add `hibana` to your Lume project's `deno.json` import map:
 {
   "imports": {
     "lume/": "https://deno.land/x/lume@v3.1.2/",
-    "hibana/": "https://deno.land/x/hibana@v1.2.1/"
+    "hibana/": "https://deno.land/x/hibana@v1.3.0/"
   }
 }
 ```
@@ -31,7 +31,7 @@ Or import directly from GitHub:
 ```json
 {
   "imports": {
-    "hibana/": "https://raw.githubusercontent.com/RickCogley/hibana/v1.2.1/"
+    "hibana/": "https://raw.githubusercontent.com/RickCogley/hibana/v1.3.0/"
   }
 }
 ```
@@ -48,9 +48,12 @@ Or import directly from GitHub:
 - **[deferPagefind](#deferpagefind)** - Defer Pagefind CSS and JS loading
 - **[externalLinksIcon](#externallinksicon)** - Add external link icons to
   `target="_blank"` links
-- **[ventoHeadingAnchors](#ventoheadinganchors)** - Add anchor links to headings in Vento pages
-- **[ventoTOC](#ventotoc)** - Generate table of contents from headings in Vento pages
-- **[ventoTOCInject](#ventotocinject)** - Inject TOC HTML into rendered pages at marker position
+- **[ventoHeadingAnchors](#ventoheadinganchors)** - Add anchor links to headings
+  in Vento pages
+- **[ventoTOC](#ventotoc)** - Generate table of contents from headings in Vento
+  pages
+- **[ventoTOCInject](#ventotocinject)** - Inject TOC HTML into rendered pages at
+  marker position
 
 ### Filters
 
@@ -209,9 +212,13 @@ export default site;
 
 Adds ID attributes and anchor links to heading elements in Vento-rendered pages.
 
-This processor enables deep-linking to headings in pure Vento (.vto) pages, matching the functionality that markdown-it plugins provide for markdown pages. It automatically generates unique slugs for headings and adds clickable anchor links.
+This processor enables deep-linking to headings in pure Vento (.vto) pages,
+matching the functionality that markdown-it plugins provide for markdown pages.
+It automatically generates unique slugs for headings and adds clickable anchor
+links.
 
-**Important:** This processor should run **before** `ventoTOC` to ensure headings have IDs before TOC generation.
+**Important:** This processor should run **before** `ventoTOC` to ensure
+headings have IDs before TOC generation.
 
 **Features:**
 
@@ -228,12 +235,17 @@ This processor enables deep-linking to headings in pure Vento (.vto) pages, matc
   - `level`: `number` - Minimum heading level to process (default: `2`)
   - `maxLevel`: `number` - Maximum heading level to process (default: `6`)
   - `tabIndex`: `number | false` - Tab index for headings (default: `-1`)
-  - `anchorPosition`: `"inside" | "outside"` - Where to place anchor (default: `"inside"`)
-  - `anchorClass`: `string` - CSS class for anchor element (default: `"header-anchor"`)
-  - `anchorSymbol`: `string` - Visible anchor text (default: `""` - use CSS ::before)
+  - `anchorPosition`: `"inside" | "outside"` - Where to place anchor (default:
+    `"inside"`)
+  - `anchorClass`: `string` - CSS class for anchor element (default:
+    `"header-anchor"`)
+  - `anchorSymbol`: `string` - Visible anchor text (default: `""` - use CSS
+    ::before)
   - `ariaLabel`: `string` - Aria label for anchor (default: `"Permalink"`)
-  - `includeTemplateEngines`: `string[]` - Template engines to process (default: `["vto"]`)
-  - `containerSelector`: `string` - CSS selector to limit extraction scope (optional)
+  - `includeTemplateEngines`: `string[]` - Template engines to process (default:
+    `["vto"]`)
+  - `containerSelector`: `string` - CSS selector to limit extraction scope
+    (optional)
   - `slugify`: `(text: string) => string` - Custom slug generator (optional)
 
 **Example:**
@@ -246,18 +258,24 @@ import { ventoHeadingAnchors, ventoTOC, ventoTOCInject } from "hibana/mod.ts";
 const site = lume();
 
 // Add heading anchors (matches markdown-it style by default)
-site.process([".html"], ventoHeadingAnchors({
-  level: 2,              // Start at h2
-  maxLevel: 4,           // End at h4
-  containerSelector: "article", // Only process headings in <article>
-}));
+site.process(
+  [".html"],
+  ventoHeadingAnchors({
+    level: 2, // Start at h2
+    maxLevel: 4, // End at h4
+    containerSelector: "article", // Only process headings in <article>
+  }),
+);
 
 // Then generate TOC
-site.process([".html"], ventoTOC({
-  level: 2,
-  maxLevel: 4,
-  containerSelector: "article",
-}));
+site.process(
+  [".html"],
+  ventoTOC({
+    level: 2,
+    maxLevel: 4,
+    containerSelector: "article",
+  }),
+);
 
 // Finally inject TOC HTML
 site.process([".html"], ventoTOCInject());
@@ -277,10 +295,12 @@ export default site;
 <!-- Output (default: anchorPosition "inside", no symbol) -->
 <article>
   <h2 id="introduction" tabindex="-1">
-    <a href="#introduction" class="header-anchor" aria-label="Permalink">Introduction</a>
+    <a href="#introduction" class="header-anchor" aria-label="Permalink"
+    >Introduction</a>
   </h2>
   <h3 id="getting-started" tabindex="-1">
-    <a href="#getting-started" class="header-anchor" aria-label="Permalink">Getting Started</a>
+    <a href="#getting-started" class="header-anchor" aria-label="Permalink"
+    >Getting Started</a>
   </h3>
 </article>
 
@@ -308,14 +328,19 @@ h3:hover .header-anchor::before {
 
 #### `ventoTOC`
 
-Generates a hierarchical table of contents (TOC) data structure from headings in Vento-rendered pages.
+Generates a hierarchical table of contents (TOC) data structure from headings in
+Vento-rendered pages.
 
-This processor extracts headings and builds a nested tree structure stored in `page.data.toc`. It's designed to work alongside `ventoTOCInject` to provide TOC functionality for pure Vento pages.
+This processor extracts headings and builds a nested tree structure stored in
+`page.data.toc`. It's designed to work alongside `ventoTOCInject` to provide TOC
+functionality for pure Vento pages.
 
 **Important:**
+
 - Run this **after** `ventoHeadingAnchors` (headings need IDs first)
 - Run this **before** `ventoTOCInject` (injection needs TOC data)
-- Due to Lume's build order (processors run after layouts), use `ventoTOCInject` to actually display the TOC
+- Due to Lume's build order (processors run after layouts), use `ventoTOCInject`
+  to actually display the TOC
 
 **Features:**
 
@@ -332,8 +357,10 @@ This processor extracts headings and builds a nested tree structure stored in `p
   - `level`: `number` - Minimum heading level (default: `2`)
   - `maxLevel`: `number` - Maximum heading level (default: `6`)
   - `key`: `string` - Page data key for TOC (default: `"toc"`)
-  - `includeTemplateEngines`: `string[]` - Engines to process (default: `["vto"]`)
-  - `containerSelector`: `string` - CSS selector to limit extraction scope (optional)
+  - `includeTemplateEngines`: `string[]` - Engines to process (default:
+    `["vto"]`)
+  - `containerSelector`: `string` - CSS selector to limit extraction scope
+    (optional)
 
 **Example:**
 
@@ -345,18 +372,24 @@ import { ventoHeadingAnchors, ventoTOC, ventoTOCInject } from "hibana/mod.ts";
 const site = lume();
 
 // Process headings in order
-site.process([".html"], ventoHeadingAnchors({
-  level: 2,
-  maxLevel: 4,
-  containerSelector: "article", // Only main content
-}));
+site.process(
+  [".html"],
+  ventoHeadingAnchors({
+    level: 2,
+    maxLevel: 4,
+    containerSelector: "article", // Only main content
+  }),
+);
 
-site.process([".html"], ventoTOC({
-  level: 2,
-  maxLevel: 4,
-  key: "toc",  // Stores in page.data.toc
-  containerSelector: "article", // Match heading anchors scope
-}));
+site.process(
+  [".html"],
+  ventoTOC({
+    level: 2,
+    maxLevel: 4,
+    key: "toc", // Stores in page.data.toc
+    containerSelector: "article", // Match heading anchors scope
+  }),
+);
 
 site.process([".html"], ventoTOCInject());
 
@@ -367,11 +400,11 @@ export default site;
 
 ```ts
 interface TOCNode {
-  level: number;        // Heading level (2-6)
-  text: string;         // Heading text content
-  slug: string;         // URL-safe slug from id attribute
-  url: string;          // Full URL with anchor (#slug)
-  children: TOCNode[];  // Nested child headings
+  level: number; // Heading level (2-6)
+  text: string; // Heading text content
+  slug: string; // URL-safe slug from id attribute
+  url: string; // Full URL with anchor (#slug)
+  children: TOCNode[]; // Nested child headings
 }
 ```
 
@@ -391,22 +424,27 @@ interface TOCNode {
         text: "Getting Started",
         slug: "getting-started",
         url: "/page/#getting-started",
-        children: []
-      }
-    ]
-  }
-]
+        children: [],
+      },
+    ],
+  },
+];
 ```
 
 ---
 
 #### `ventoTOCInject`
 
-Injects TOC HTML into rendered pages at a marker position, working around Lume's build order limitation.
+Injects TOC HTML into rendered pages at a marker position, working around Lume's
+build order limitation.
 
-**The Problem:** Lume's build order is: Preprocessors → Template Rendering → **Layout Rendering** → Processors. Since processors run **after** layouts render, `page.data.toc` isn't available when the layout template executes.
+**The Problem:** Lume's build order is: Preprocessors → Template Rendering →
+**Layout Rendering** → Processors. Since processors run **after** layouts
+render, `page.data.toc` isn't available when the layout template executes.
 
-**The Solution:** This processor finds a marker comment in the rendered HTML and replaces it with generated TOC HTML. This allows TOCs to appear in layouts even though the data is generated after layout rendering.
+**The Solution:** This processor finds a marker comment in the rendered HTML and
+replaces it with generated TOC HTML. This allows TOCs to appear in layouts even
+though the data is generated after layout rendering.
 
 **Features:**
 
@@ -430,16 +468,22 @@ import { ventoHeadingAnchors, ventoTOC, ventoTOCInject } from "hibana/mod.ts";
 const site = lume();
 
 // Standard processor order
-site.process([".html"], ventoHeadingAnchors({
-  level: 2,
-  maxLevel: 4,
-  containerSelector: "article",
-}));
-site.process([".html"], ventoTOC({
-  level: 2,
-  maxLevel: 4,
-  containerSelector: "article",
-}));
+site.process(
+  [".html"],
+  ventoHeadingAnchors({
+    level: 2,
+    maxLevel: 4,
+    containerSelector: "article",
+  }),
+);
+site.process(
+  [".html"],
+  ventoTOC({
+    level: 2,
+    maxLevel: 4,
+    containerSelector: "article",
+  }),
+);
 site.process([".html"], ventoTOCInject());
 
 export default site;
@@ -502,7 +546,11 @@ show_toc: false  # No TOC injection
       </h3>
       <ol role="list" class="mt-2 space-y-3 pl-5">
         <li>
-          <a href="#getting-started" class="toc-link" data-toc-id="getting-started">
+          <a
+            href="#getting-started"
+            class="toc-link"
+            data-toc-id="getting-started"
+          >
             Getting Started
           </a>
         </li>
@@ -522,19 +570,25 @@ import { ventoHeadingAnchors, ventoTOC, ventoTOCInject } from "hibana/mod.ts";
 const site = lume();
 
 // 1. Add IDs and anchors to headings
-site.process([".html"], ventoHeadingAnchors({
-  level: 2,
-  maxLevel: 4,
-  containerSelector: "article", // Only <article> headings
-}));
+site.process(
+  [".html"],
+  ventoHeadingAnchors({
+    level: 2,
+    maxLevel: 4,
+    containerSelector: "article", // Only <article> headings
+  }),
+);
 
 // 2. Generate TOC data structure
-site.process([".html"], ventoTOC({
-  level: 2,
-  maxLevel: 4,
-  key: "toc",
-  containerSelector: "article", // Match heading scope
-}));
+site.process(
+  [".html"],
+  ventoTOC({
+    level: 2,
+    maxLevel: 4,
+    key: "toc",
+    containerSelector: "article", // Match heading scope
+  }),
+);
 
 // 3. Inject TOC HTML at marker
 site.process([".html"], ventoTOCInject());

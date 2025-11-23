@@ -12,12 +12,15 @@ import {
 } from "../utils/headings.ts";
 
 /** Default options for TOC generator processor */
-export const defaults: Required<TOCGeneratorOptions> = {
-  level: 2,
-  maxLevel: 6,
-  key: "toc",
-  includeTemplateEngines: ["vto"],
-};
+export const defaults:
+  & Required<Omit<TOCGeneratorOptions, "containerSelector">>
+  & Pick<TOCGeneratorOptions, "containerSelector"> = {
+    level: 2,
+    maxLevel: 6,
+    key: "toc",
+    includeTemplateEngines: ["vto"],
+    containerSelector: undefined,
+  };
 
 /**
  * Checks if a page should be processed based on its template engine.
@@ -155,7 +158,7 @@ function buildTOCTree(
  */
 export default function ventoTOC(
   userOptions: TOCGeneratorOptions = {},
-) {
+): (pages: Page[]) => void {
   // Merge user options with defaults
   const options: Required<TOCGeneratorOptions> = {
     ...defaults,
@@ -201,7 +204,9 @@ export default function ventoTOC(
         // Warn if heading doesn't have an ID
         if (!slug) {
           console.warn(
-            `⚠️  ventoTOC: Heading "${text}" on page ${page.data?.url || "unknown"} has no ID attribute. ` +
+            `⚠️  ventoTOC: Heading "${text}" on page ${
+              page.data?.url || "unknown"
+            } has no ID attribute. ` +
               `Run ventoHeadingAnchors processor first.`,
           );
         }

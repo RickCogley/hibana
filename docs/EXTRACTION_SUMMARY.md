@@ -1,8 +1,7 @@
 # Hibana v1.2.0 - Extraction Summary
 
-**Date**: 2025-11-20
-**Extracted from**: eSolia 2025 project
-**Status**: Phase 1 Complete - Ready for Testing
+**Date**: 2025-11-20 **Extracted from**: eSolia 2025 project **Status**: Phase 1
+Complete - Ready for Testing
 
 ---
 
@@ -11,6 +10,7 @@
 ### 🟢 High Priority Modules (7 modules)
 
 #### 1. **Temporal Date Filter** (`filters/temporal_date.ts`)
+
 - **Lines**: 176
 - **Extracted from**: `esolia-2025/_config.ts:719-808`
 - **Purpose**: Modern date formatting using Temporal API
@@ -21,6 +21,7 @@
   - Handles Date objects and ISO strings
 
 #### 2. **Markdown Metadata Preprocessor** (`preprocessors/markdown_metadata.ts`)
+
 - **Lines**: 107
 - **Extracted from**: `esolia-2025/_config.ts:367-380`
 - **Purpose**: Extract excerpts and calculate elapsed days
@@ -30,6 +31,7 @@
   - Optional feature toggling
 
 #### 3. **Breadcrumb Schema Generator** (`preprocessors/breadcrumb_schema.ts`)
+
 - **Lines**: 229
 - **Extracted from**: `esolia-2025/_config.ts:500-570`
 - **Purpose**: Auto-generate Schema.org breadcrumbs
@@ -40,6 +42,7 @@
   - Manual breadcrumb creation helper
 
 #### 4. **Language Alternates Schema Linker** (`preprocessors/language_alternates_schema.ts`)
+
 - **Lines**: 224
 - **Extracted from**: `esolia-2025/_config.ts:573-637`
 - **Purpose**: Link translated pages via Schema.org
@@ -50,6 +53,7 @@
   - Manual linking helper function
 
 #### 5. **Font Path Fixer** (`scripts/fix_font_paths.ts`)
+
 - **Lines**: 99
 - **Extracted from**: `esolia-2025/_config.ts:690-712`
 - **Purpose**: Fix Google Fonts relative paths
@@ -59,6 +63,7 @@
   - Individual command generation option
 
 #### 6. **DOCTYPE Injector** (`scripts/inject_doctype.ts`)
+
 - **Lines**: 116
 - **Extracted from**: `esolia-2025/_config.ts:324-343`
 - **Purpose**: Inject DOCTYPE into HTML files (Lume 3 workaround)
@@ -69,6 +74,7 @@
   - Configurable verbosity
 
 #### 7. **DOM Utilities Additions** (`utils/dom_utils.ts`)
+
 - **Lines**: 76 (additions)
 - **Extracted from**: `esolia-2025/src/js/main.ts:3-24`
 - **Purpose**: Accessibility and platform detection
@@ -112,11 +118,13 @@ hibana/
 ### New Exports Added:
 
 **Filters**:
+
 - `temporalDate` (function)
 - `TemporalDateOptions` (type)
 - `DateFormat` (type)
 
 **Preprocessors**:
+
 - `markdownMetadata` (function)
 - `MarkdownMetadataOptions` (type)
 - `breadcrumbSchema` (function)
@@ -128,6 +136,7 @@ hibana/
 - `LanguageAlternatesSchemaOptions` (type)
 
 **Scripts**:
+
 - `fixFontPaths` (function)
 - `generateFontPathFixes` (helper function)
 - `FixFontPathsOptions` (type)
@@ -136,6 +145,7 @@ hibana/
 - `InjectDoctypeOptions` (type)
 
 **DOM Utils**:
+
 - `prefersReducedMotion` (function)
 - `detectOS` (function)
 - `addOSClass` (function)
@@ -173,43 +183,58 @@ hibana/
 ```ts
 // _config.ts
 import {
-  temporalDate,
-  markdownMetadata,
   breadcrumbSchema,
-  languageAlternatesSchema,
   fixFontPaths,
   injectDoctype,
+  languageAlternatesSchema,
+  markdownMetadata,
+  temporalDate,
 } from "hibana/mod.ts";
 
 // Temporal date filter
-site.filter("tdate", temporalDate({
-  defaultTimezone: "Asia/Tokyo",
-}));
+site.filter(
+  "tdate",
+  temporalDate({
+    defaultTimezone: "Asia/Tokyo",
+  }),
+);
 
 // Markdown metadata
-site.preprocess([".md"], markdownMetadata({
-  excerptMarker: "<!-- more -->",
-  calculateElapsed: true,
-}));
+site.preprocess(
+  [".md"],
+  markdownMetadata({
+    excerptMarker: "<!-- more -->",
+    calculateElapsed: true,
+  }),
+);
 
 // SEO Schema
-site.preprocess([".md"], breadcrumbSchema({
-  baseUrl: "https://example.com",
-  homeNames: { en: "Home", ja: "ホーム" },
-  languages: ["en", "ja"],
-}));
+site.preprocess(
+  [".md"],
+  breadcrumbSchema({
+    baseUrl: "https://example.com",
+    homeNames: { en: "Home", ja: "ホーム" },
+    languages: ["en", "ja"],
+  }),
+);
 
-site.preprocess([".md"], languageAlternatesSchema({
-  baseUrl: "https://example.com",
-  languages: ["en", "ja"],
-  schemaFields: ["webPageSchema", "serviceSchema"],
-}));
+site.preprocess(
+  [".md"],
+  languageAlternatesSchema({
+    baseUrl: "https://example.com",
+    languages: ["en", "ja"],
+    schemaFields: ["webPageSchema", "serviceSchema"],
+  }),
+);
 
 // Build scripts
-site.script("fixFonts", fixFontPaths({
-  cssFiles: ["fonts-en.css"],
-  fontDirs: ["fonts-en"],
-}));
+site.script(
+  "fixFonts",
+  fixFontPaths({
+    cssFiles: ["fonts-en.css"],
+    fontDirs: ["fonts-en"],
+  }),
+);
 site.addEventListener("afterBuild", "fixFonts");
 
 site.addEventListener("afterBuild", injectDoctype());
@@ -219,9 +244,9 @@ site.addEventListener("afterBuild", injectDoctype());
 
 ```ts
 import {
-  prefersReducedMotion,
   addOSClass,
   loadVendorScript,
+  prefersReducedMotion,
   trapFocus,
 } from "hibana/utils/dom_utils.ts";
 
@@ -258,24 +283,33 @@ Once Hibana v1.2.0 is published and tested:
 ### Step 2: Replace Custom Code
 
 #### Date Filter
+
 **Remove** from `_config.ts:719-808`:
+
 ```ts
-site.filter("tdate", (value, format, lang) => { /* 90 lines */ });
+site.filter("tdate", (value, format, lang) => {/* 90 lines */});
 ```
 
 **Replace with**:
+
 ```ts
 import { temporalDate } from "hibana/filters/temporal_date.ts";
 site.filter("tdate", temporalDate({ defaultTimezone: "Asia/Tokyo" }));
 ```
 
 #### Markdown Metadata
+
 **Remove** from `_config.ts:367-380`:
+
 ```ts
-site.preprocess([".md"], function markdownExcerptAndElapsedDays(pages) { /* ... */ });
+site.preprocess(
+  [".md"],
+  function markdownExcerptAndElapsedDays(pages) {/* ... */},
+);
 ```
 
 **Replace with**:
+
 ```ts
 import { markdownMetadata } from "hibana/preprocessors/markdown_metadata.ts";
 site.preprocess([".md"], markdownMetadata());
@@ -289,8 +323,10 @@ site.preprocess([".md"], markdownMetadata());
 
 ## Known Limitations & Notes
 
-1. **Temporal API Requirement**: Requires Deno 1.40+ or Node 20+ with Temporal polyfill
-2. **Platform-Specific**: `fixFontPaths` and `injectDoctype` require `sed` command (Unix/Linux/macOS)
+1. **Temporal API Requirement**: Requires Deno 1.40+ or Node 20+ with Temporal
+   polyfill
+2. **Platform-Specific**: `fixFontPaths` and `injectDoctype` require `sed`
+   command (Unix/Linux/macOS)
 3. **Lume Version**: Tested with Lume 3.x, may need adjustments for Lume 2.x
 4. **Schema.org**: Assumes specific schema field names in frontmatter
 

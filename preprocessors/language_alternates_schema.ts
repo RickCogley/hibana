@@ -107,7 +107,7 @@ export default function languageAlternatesSchema(
   // deno-lint-ignore no-explicit-any
 ): (pages: any[]) => void {
   const {
-    baseUrl,
+    baseUrl: _baseUrl,
     languages,
     defaultLanguage = "en",
     schemaFields,

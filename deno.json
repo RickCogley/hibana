@@ -1,6 +1,6 @@
 {
   "name": "@rick/hibana",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "license": "MIT",
   "exports": "./mod.ts",
   "tasks": {
@@ -12,7 +12,12 @@
     "doc": "deno doc --html --name=Hibana --output=docs/api mod.ts"
   },
   "lint": {
-    "exclude": ["docs/", "generate_readme.ts", "generate_readme2.ts", "release.ts"],
+    "exclude": [
+      "docs/",
+      "generate_readme.ts",
+      "generate_readme2.ts",
+      "release.ts"
+    ],
     "rules": {
       "exclude": ["no-explicit-any", "no-window"]
     }
