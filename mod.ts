@@ -5,7 +5,7 @@
  * | ------- | ------- |
  * | **Version** | 1.3.0 |
  * | **Repository** | {@link https://github.com/RickCogley/hibana} |
- * | **API Docs**   | [https://hibana.esolia.deno.net](https://hibana.esolia.deno.net) |
+ * | **API Docs**   | [https://hibana-docs.esolia.workers.dev](https://hibana-docs.esolia.workers.dev) |
  * | **Distribution** | [https://deno.land/x/hibana](https://deno.land/x/hibana) |
  * | **License** | MIT |
  * | **Author** | Rick Cogley |

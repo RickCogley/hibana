@@ -1,0 +1,86 @@
+---
+title: Hibana (火花)
+description: Lume SSG helper utility library — plugins, processors, filters, and preprocessors for Lume static sites.
+template: splash
+hero:
+  title: Hibana (火花)
+  tagline: Little sparks for Lume — plugins, processors, filters, and preprocessors that enhance Lume static-site projects.
+  actions:
+    - text: View API reference
+      link: /api/
+      icon: right-arrow
+      variant: primary
+    - text: GitHub
+      link: https://github.com/RickCogley/hibana
+      icon: github
+---
+
+import { Card, CardGrid } from "@astrojs/starlight/components";
+
+## Plugins
+
+<CardGrid>
+  <Card title="cssBanner" icon="seti:css">
+    Adds a comment banner to generated CSS files.
+  </Card>
+  <Card title="shuffle" icon="random">
+    Filter to randomize array order in templates.
+  </Card>
+</CardGrid>
+
+## Processors
+
+<CardGrid>
+  <Card title="deferPagefind" icon="magnifier">
+    Defers Pagefind CSS and JS loading for faster page rendering.
+  </Card>
+  <Card title="externalLinksIcon" icon="external">
+    Adds external link icons to anchors with `target="_blank"`.
+  </Card>
+  <Card title="ventoHeadingAnchors" icon="forward-slash">
+    Adds anchor links to headings in Vento pages.
+  </Card>
+  <Card title="ventoTOC + ventoTOCInject" icon="list-format">
+    Generates a table of contents from headings and injects it at a marker position.
+  </Card>
+</CardGrid>
+
+## Installation
+
+Install via the deno.land/x registry:
+
+```jsonc
+// deno.json
+{
+  "imports": {
+    "lume/": "https://deno.land/x/lume@v3.1.2/",
+    "hibana/": "https://deno.land/x/hibana@v1.3.0/"
+  }
+}
+```
+
+Or import directly from GitHub:
+
+```jsonc
+{
+  "imports": {
+    "hibana/": "https://raw.githubusercontent.com/RickCogley/hibana/v1.3.0/"
+  }
+}
+```
+
+Then use the helpers in your Lume `_config.ts`:
+
+```ts
+import lume from "lume/mod.ts";
+import { externalLinksIcon, ventoHeadingAnchors, ventoTOC } from "hibana/mod.ts";
+
+const site = lume();
+site.use(externalLinksIcon());
+site.use(ventoHeadingAnchors());
+site.use(ventoTOC());
+
+export default site;
+```
+
+See the [API reference](/api/) for full signatures and option types.
