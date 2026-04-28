@@ -14,6 +14,7 @@
   "lint": {
     "exclude": [
       "docs/",
+      "docs-site/",
       "generate_readme.ts",
       "generate_readme2.ts",
       "release.ts"
@@ -21,5 +22,8 @@
     "rules": {
       "exclude": ["no-explicit-any", "no-window"]
     }
+  },
+  "fmt": {
+    "exclude": ["docs/", "docs-site/"]
   }
 }

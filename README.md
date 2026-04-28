@@ -4,14 +4,14 @@ The `hibana` library provides a comprehensive collection of Lume helper plugins,
 processors, filters, preprocessors, scripts, and utility functions designed to
 enhance Lume static site generation projects.
 
-| Hibana           | Specifications                                                               |
-| ---------------- | ---------------------------------------------------------------------------- |
-| **Version**      | 1.3.0                                                                        |
-| **Repository**   | [https://github.com/RickCogley/hibana](https://github.com/RickCogley/hibana) |
-| **API Docs**     | [https://hibana.esolia.deno.net](https://hibana.esolia.deno.net)             |
-| **Distribution** | [https://deno.land/x/hibana](https://deno.land/x/hibana)                     |
-| **License**      | MIT                                                                          |
-| **Author**       | Rick Cogley                                                                  |
+| Hibana           | Specifications                                                                   |
+| ---------------- | -------------------------------------------------------------------------------- |
+| **Version**      | 1.3.0                                                                            |
+| **Repository**   | [https://github.com/RickCogley/hibana](https://github.com/RickCogley/hibana)     |
+| **API Docs**     | [https://hibana-docs.esolia.workers.dev](https://hibana-docs.esolia.workers.dev) |
+| **Distribution** | [https://deno.land/x/hibana](https://deno.land/x/hibana)                         |
+| **License**      | MIT                                                                              |
+| **Author**       | Rick Cogley                                                                      |
 
 ## Installation
 
