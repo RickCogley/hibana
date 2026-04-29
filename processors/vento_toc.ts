@@ -159,11 +159,14 @@ function buildTOCTree(
 export default function ventoTOC(
   userOptions: TOCGeneratorOptions = {},
 ): (pages: Page[]) => void {
-  // Merge user options with defaults
-  const options: Required<TOCGeneratorOptions> = {
-    ...defaults,
-    ...userOptions,
-  };
+  // Merge user options with defaults. containerSelector is genuinely optional
+  // (undefined means "scan whole document"), so it's Pick'd out of Required<>.
+  const options:
+    & Required<Omit<TOCGeneratorOptions, "containerSelector">>
+    & Pick<TOCGeneratorOptions, "containerSelector"> = {
+      ...defaults,
+      ...userOptions,
+    };
 
   let processedPages = 0;
   let generatedTOCs = 0;

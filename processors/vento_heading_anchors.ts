@@ -116,13 +116,14 @@ function shouldProcessPage(
 export default function ventoHeadingAnchors(
   userOptions: HeadingAnchorsOptions = {},
 ): (pages: Page[]) => void {
-  // Merge user options with defaults
-  const options: Required<Omit<HeadingAnchorsOptions, "slugify">> & {
-    slugify?: (text: string) => string;
-  } = {
-    ...defaults,
-    ...userOptions,
-  };
+  // Merge user options with defaults. containerSelector is genuinely optional
+  // (undefined means "scan whole document"), so it's Pick'd out of Required<>.
+  const options:
+    & Required<Omit<HeadingAnchorsOptions, "slugify" | "containerSelector">>
+    & Pick<HeadingAnchorsOptions, "slugify" | "containerSelector"> = {
+      ...defaults,
+      ...userOptions,
+    };
 
   let processedPages = 0;
   let addedAnchors = 0;
