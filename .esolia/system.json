@@ -1,0 +1,20 @@
+{
+  "name": "hibana",
+  "purpose": "Library of Lume plugins, processors, filters, and helper functions for enhancing Lume static-site-generation projects.",
+  "repo": "RickCogley/hibana",
+  "audience": "public",
+  "stack": ["deno", "typescript", "lume"],
+  "owners": ["RickCogley"],
+  "status": "active",
+  "sensitivity": {
+    "overview": "org",
+    "topology": "dev",
+    "security": "dev"
+  },
+  "exposes": [
+    { "name": "Lume helpers", "kind": "library" }
+  ],
+  "links": {
+    "docs": "https://hibana-docs.esolia.workers.dev/"
+  }
+}
