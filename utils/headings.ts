@@ -1,3 +1,6 @@
+/// <reference lib="dom" />
+// DOM types: these were previously pulled in transitively by the unused Lume
+// re-export in deps.ts (removed in v1.3.1).
 /**
  * @file Utilities for extracting and processing heading elements from HTML.
  * @author Rick Cogley

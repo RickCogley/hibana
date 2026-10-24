@@ -1,3 +1,6 @@
+/// <reference lib="dom" />
+// DOM types: these were previously pulled in transitively by the unused Lume
+// re-export in deps.ts (removed in v1.3.1).
 /**
  * Utility function to load an external vendor script.
  * @param src The URL of the script to load.
