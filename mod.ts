@@ -3,7 +3,7 @@
  *
  * | Hibana | Specifications |
  * | ------- | ------- |
- * | **Version** | 1.3.0 |
+ * | **Version** | 1.3.1 |
  * | **Repository** | {@link https://github.com/RickCogley/hibana} |
  * | **API Docs**   | [https://hibana-docs.esolia.workers.dev](https://hibana-docs.esolia.workers.dev) |
  * | **Distribution** | [https://deno.land/x/hibana](https://deno.land/x/hibana) |

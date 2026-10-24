@@ -1,3 +1,6 @@
+/// <reference lib="dom" />
+// DOM types: these were previously pulled in transitively by the unused Lume
+// re-export in deps.ts (removed in v1.3.1).
 /**
  * @file TypeScript type definitions for Vento TOC and heading anchor plugins.
  * @author Rick Cogley

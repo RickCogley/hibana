@@ -7,6 +7,17 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.3.1] - 2026-10-24
+
+### Removed
+
+- The unused `lume` re-export in `deps.ts`. Nothing imported it (Lume types come
+  from the shims in `types/lume.ts`), but every consumer still downloaded Lume
+  3.1.2 from deno.land/x alongside its own Lume. hibana now loads no Lume code
+  and nothing from deno.land/x.
+- `update_lume_version.ts` and the `update-lume` task, which edited a `lume/`
+  import this repo does not have.
+
 ## [1.3.0] - 2025-11-23
 
 ### Added
