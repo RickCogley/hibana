@@ -6,7 +6,7 @@
 .idea/
 *.swp
 
-# Claude Code local-only settings (but allow .claude/rules/ to be tracked)
+# Claude Code local-only settings
 .claude/settings.local.json
 .claude/cache/
 
